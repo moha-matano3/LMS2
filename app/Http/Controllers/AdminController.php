@@ -41,10 +41,10 @@ class AdminController extends Controller
 
     public function add_category(Request $request)
     {
-        $data= new Category; 
+        $data= new Category;
         $data->category_name = $request->category_name;
         $data->save();
-        return redirect()->back()->with('message','Category added successfully'); 
+        return redirect()->back()->with('message','Category added successfully');
     }
 
     public function display_category()
@@ -68,10 +68,10 @@ class AdminController extends Controller
 
     public function update_category(Request $request, $id)
     {
-        $data= Category::find($id); 
+        $data= Category::find($id);
         $data->category_name = $request->category_name;
         $data->save();
-        return redirect('/display_category')->with('message','Category updated successfully'); 
+        return redirect('/display_category')->with('message','Category updated successfully');
     }
 
     public function add_book()
@@ -95,14 +95,14 @@ class AdminController extends Controller
                 {
                    $book_image_name = time().'.'.$book_img->getClientOriginalExtension();
                    $request->book_img->move('book',$book_image_name);
-                   $data -> book_img = $book_image_name; 
+                   $data -> book_img = $book_image_name;
                 }
         $author_img = $request -> author_img;
         if ($author_img)
             {
                 $author_image_name = time().'.'.$author_img->getClientOriginalExtension();
                 $request->author_img->move('author',$author_image_name);
-                $data -> author_img = $author_image_name; 
+                $data -> author_img = $author_image_name;
             }
         $data -> save();
         return redirect()->back();
@@ -143,18 +143,18 @@ class AdminController extends Controller
                 {
                    $book_image_name = time().'.'.$book_img->getClientOriginalExtension();
                    $request->book_img->move('book',$book_image_name);
-                   $data -> book_img = $book_image_name; 
+                   $data -> book_img = $book_image_name;
                 }
         $author_img = $request -> author_img;
         if ($author_img)
             {
                 $author_image_name = time().'.'.$author_img->getClientOriginalExtension();
                 $request->author_img->move('author',$author_image_name);
-                $data -> author_img = $author_image_name; 
+                $data -> author_img = $author_image_name;
             }
         $data->save();
 
-        return redirect('/display_book')->with('message','Title has been updated successfully'); 
+        return redirect('/display_book')->with('message','Title has been updated successfully');
     }
 
     public function borrow_request()
