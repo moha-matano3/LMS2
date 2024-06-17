@@ -6,7 +6,7 @@
     <title>Home</title>
 
     <style>
-         *
+        *
         {
             padding: 0;
             margin: 0;
@@ -22,7 +22,7 @@
             display: inline-flex;
             list-style: none;
         }
-        .navbar ul li 
+        .navbar ul li
         {
             width: 200px;
             margin: 15px;
@@ -38,11 +38,11 @@
             background: #000;
             border-radius: 5px
         }
-        .subMenu 
+        .subMenu
         {
             display: none;
         }
-        .navbar ul li:hover .subMenu 
+        .navbar ul li:hover .subMenu
         {
             display: block;
             position: absolute;
@@ -62,6 +62,73 @@
             border-radius: 5px;
             text-align: left;
         }
+        .section-title {
+            background: rgba(0, 0, 0, 0.5);
+            color: #faf9f6;
+            font-size: 50px;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .section-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        @media (max-width: 1050px) {
+            .navbar ul {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .navbar ul li {
+                width: 100%;
+                margin: 5px 0;
+                padding: 10px;
+            }
+            .navbar ul li:hover .subMenu {
+                position: static;
+                margin-top: 0;
+                margin-left: 0;
+                width: 100%;
+            }
+            .section-title {
+                margin-top: 80px;
+                font-size: 30px;
+            }
+            .section-content img {
+                height: 500px;
+            }
+        }
+        @media (max-width: 480px) {
+            .navbar ul {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .navbar ul li {
+                width: 100%;
+                margin: 5px 0;
+                padding: 10px;
+            }
+            .navbar ul li:hover .subMenu {
+                position: static;
+                margin-top: 0;
+                margin-left: 0;
+                width: 100%;
+            }
+            .section-title {
+                margin-top: 80px;
+                font-size: 20px;
+            }
+            .section-content img {
+                height: 500px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -74,6 +141,7 @@
                     <ul>
                         @if(Route::has('register'))
                             @auth
+                            <li><a href="/home"> Dashboard </a></li>
                             @else
                                 <li><a href="{{ route('register') }}"> Register </a></li>
                                 @if(Route::has('login'))
@@ -87,11 +155,18 @@
         </ul>
     </div>
 
-    <div style="background: rgba(0, 0, 0, 0.5); color: #faf9f6; font-size: 50px; margin: 0; padding: 0; text-align: center; position: absolute; top: 30%; left: 50%; transform: translateX(-50%);">
+    <div class="section-title">
             <h1><b>Hekima Community Library</b></h1>
     </div>
-    <div>
-        <img src="{{URL('images/lib.jpg')}}" alt="" width="auto" height="auto">
+    <div class="section-content">
+        <img src="{{URL('images/lib.jpg')}}" alt="Library Image">
     </div>
 </body>
 </html>
+
+
+
+
+
+
+
