@@ -25,27 +25,38 @@ class HomeController extends Controller
     }
     public function borrow_books($id)
     {
-        $data = Books::find($id);
-        $book_id = $id;
-        $quantity = $data -> quantity;
-        if ($quantity >= '1') {
-            if (Auth::id()) {
-                $user_id = Auth::user()->id;
-                $borrow = new Borrow;
-                $borrow -> books_id = $book_id;
-                $borrow -> users_id = $user_id;
-                $borrow -> status = 'Applied';
-                $borrow -> due_date;
-                $borrow -> save();
-                return redirect() -> back() -> with('message','Request sent to Admin');
-            }
-            else {
-                return redirect('/login');
-            }
+        $user_id = Auth::id();
+        $existing_borrow = Borrow::where('users_id', $user_id)
+                              ->where('books_id', $id)
+                              ->whereIn('status', ['Approved', 'Applied', 'Borrowed'])
+                              ->first();
+
+        if ($existing_borrow) {
+            return redirect()->back()->with('message', 'You have already requested or borrowed this book.');
         }
         else {
-            return redirect() -> back() -> with('message','Not Enough books, kindly wait');
-        }
+            $data = Books::find($id);
+            $book_id = $id;
+            $quantity = $data -> quantity;
+            if ($quantity >= '1') {
+                if (Auth::id()) {
+                    $user_id = Auth::user()->id;
+                    $borrow = new Borrow;
+                    $borrow -> books_id = $book_id;
+                    $borrow -> users_id = $user_id;
+                    $borrow -> status = 'Applied';
+                    $borrow -> due_date;
+                    $borrow -> save();
+                    return redirect() -> back() -> with('message','Request sent to Admin');
+                }
+                else {
+                    return redirect('/login');
+                }
+            }
+            else {
+                return redirect() -> back() -> with('message','Not Enough books, kindly wait');
+            }
+        }   
     }
 
     public function patron_requests()
