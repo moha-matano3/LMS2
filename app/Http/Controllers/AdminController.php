@@ -22,7 +22,7 @@ class AdminController extends Controller
                 $patron = User::where('usertype','patron') -> count();
                 $admin = User::where('usertype','admin') -> count();
                 $book = Books::sum('quantity');
-                $borrow = Borrow::where('status','Approved')->count();
+                $borrow = Borrow::where('status','Borrowed')->count();
                 $return = Borrow::where('status','Returned')->count();
                 return view('admin.index', compact('admin','patron','book','borrow','return'));
             }else if ($user_type == 'patron') {
@@ -166,12 +166,20 @@ class AdminController extends Controller
     public function approve_book($id)
     {
         $data = Borrow::find($id);
+        $data -> status = 'Approved';
+        $data -> save();
+        return redirect()->back()->with('message','Borrow Request approved');
+    }
+
+    public function borrow_book($id)
+    {
+        $data = Borrow::find($id);
         $status = $data->status;
-        if ($status == 'Approved') {
+        if ($status == 'Borrowed') {
             return redirect()->back();
         }
         else {
-            $data -> status = 'Approved';
+            $data -> status = 'Borrowed';
             $data -> due_date = Carbon::now()->addDays(3);
             $data -> save();
             $book_id = $data->books_id;
@@ -179,7 +187,7 @@ class AdminController extends Controller
             $book_quantity = $book->quantity - '1';
             $book->quantity = $book_quantity;
             $book->save();
-            return redirect()->back()->with('message','Borrow request approved');
+            return redirect()->back()->with('message','Request Book has been borrowed');
         }
     }
 

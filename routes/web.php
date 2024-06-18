@@ -50,6 +50,8 @@ route::get('/borrow_request',[AdminController::class,'borrow_request']);
 
 route::get('/approve_book/{id}',[AdminController::class,'approve_book']);
 
+route::get('/borrow_book/{id}',[AdminController::class,'borrow_book']);
+
 route::get('/deny_book/{id}',[AdminController::class,'deny_book']);
 
 route::get('/return_book/{id}',[AdminController::class,'return_book']);

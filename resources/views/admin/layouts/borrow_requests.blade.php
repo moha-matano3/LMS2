@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head> 
+  <head>
     @include('admin.layouts.head')
 
     <style>
@@ -13,6 +13,7 @@
       th
       {
         background: #b5406c;
+
       }
       .img_book
       {
@@ -21,8 +22,10 @@
       }
       table
       {
-        width: auto;
+        width: 100%;
       }
+
+
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -31,7 +34,7 @@
 
   <body>
 
-    <header class="header">   
+    <header class="header">
       @include('admin.layouts.header')
     </header>
 
@@ -68,6 +71,8 @@
                         <th>Request date</th>
                         <th>Review date</th>
                         <th>Due date</th>
+                        <th>Actions</th>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -84,9 +89,10 @@
                         <td>{{$borrow->created_at ?? ''}}</td>
                         <td>{{$borrow->updated_at ?? ''}}</td>
                         <td>{{$borrow->due_date ?? ''}}</td>
-                        <td><a class="btn-sm btn-primary" href="{{url('approve_book',$borrow->id)}}"><i class="fas fa-thumbs-up"></i></a></td>
-                        <td><a class="btn-sm btn-warning" href="{{url('deny_book',$borrow->id)}}"><i class="fas fa-thumbs-down"></i></a></td>
-                        <td><a class="btn-sm btn-secondary" href="{{url('return_book',$borrow->id)}}"><i class="fas fa-undo"></i></a></td>
+                        <td><a class="btn-sm btn-primary" href="{{url('approve_book',$borrow->id)}}" title="Approve"><i class="fas fa-check"></i></a></td>
+                        <td><a class="btn-sm btn-success" href="{{url('borrow_book',$borrow->id)}}" title="Borrow"><i class="fas fa-thumbs-up"></i></a></td>
+                        <td><a class="btn-sm btn-warning" href="{{url('deny_book',$borrow->id)}}" title="Deny"><i class="fas fa-thumbs-down"></i></a></td>
+                        <td><a class="btn-sm btn-secondary" href="{{url('return_book',$borrow->id)}}" title="Return"><i class="fas fa-undo"></i></a></td>
                     </tr>
                     @endforeach
                 </table>
@@ -101,7 +107,7 @@
 
       </div>
     </div>
-    
+
     @include('admin.layouts.script')
 
   </body>
