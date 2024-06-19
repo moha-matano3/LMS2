@@ -70,11 +70,13 @@
                     <tr>
                         <th>Book Title</th>
                         <th>Book Image</th>
-                        <th>Status</th>
+                        <th>Book Status</th>
                         <th>Request Date</th>
                         <th>Due Date</th>
                         <th>Timer</th>
+                        <th>Extension Request</th>
                         <th>Cancel Request</th>
+                        <th></th>
                     </tr>
                     @foreach ($data as $data)
                     <tr>
@@ -84,6 +86,20 @@
                         <td>{{$data->created_at}}</td>
                         <td>{{$data->due_date}}</td>
                         <td><span class="timer" data-due="{{$data->due_date}}"></span></td>
+                        <td>
+                            @if ($data->extension_status == 'none' && $data->status == 'Borrowed')
+                                <a href="{{ url('request_extension', $data->id) }}" class="btn btn-warning">Request Extension</a>
+                            @elseif ($data->extension_status == 'pending')
+                                <p>Extension Pending</p>
+                            @elseif ($data->extension_status == 'Accepted')
+                                <p>Extension Accepted</p>
+                            @elseif ($data->extension_status == 'Rejected')
+                                <p>Extension Rejected</p>
+                            @else
+                                <p>Cannot request extension</p>
+                            @endif
+                        </td>
+
                         <td>
                           @if ($data -> status == 'Applied' || $data -> status == 'Approved')
                             <a href="{{url('cancel_request',$data->id)}}" class="btn btn-danger">Cancel</a>

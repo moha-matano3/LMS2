@@ -41,6 +41,12 @@
             <li class="{{ request()->is('borrow_request') ? 'active' : '' }}">
                 <a href="{{ url('borrow_request') }}"><i class="fas fa-paper-plane"></i> Borrow Requests</a>
             </li>
+            <li class="{{ request()->is('extension_request') ? 'active' : '' }}">
+                <a href="{{ url('extension_request') }}"><i class="fas fa-clock-o"></i> Extension Requests</a>
+            </li>
+            <li class="{{ request()->is('reservation_request') ? 'active' : '' }}">
+                <a href="{{ url('reservation_request') }}"><i class="fas fa-calendar-check-o"></i> Reservation Requests</a>
+            </li>
         </ul>
 
 
