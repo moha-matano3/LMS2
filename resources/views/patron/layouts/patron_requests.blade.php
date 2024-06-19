@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head> 
+  <head>
     @include('patron.layouts.head')
 
     <style>
@@ -41,7 +41,7 @@
 
   <body>
 
-    <header class="header">   
+    <header class="header">
       @include('patron.layouts.header')
     </header>
 
@@ -85,7 +85,7 @@
                         <td>{{$data->due_date}}</td>
                         <td><span class="timer" data-due="{{$data->due_date}}"></span></td>
                         <td>
-                          @if ($data -> status == 'Applied')
+                          @if ($data -> status == 'Applied' || $data -> status == 'Approved')
                             <a href="{{url('cancel_request',$data->id)}}" class="btn btn-danger">Cancel</a>
                             @else
                             <p>Cannot Cancel request</p>
@@ -105,7 +105,7 @@
 
       </div>
     </div>
-    
+
     @include('patron.layouts.script')
 
 

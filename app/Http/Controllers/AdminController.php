@@ -9,6 +9,7 @@ use App\Models\Books;
 use App\Models\Borrow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -22,7 +23,7 @@ class AdminController extends Controller
                 $patron = User::where('usertype','patron') -> count();
                 $admin = User::where('usertype','admin') -> count();
                 $book = Books::sum('quantity');
-                $borrow = Borrow::where('status','Approved')->count();
+                $borrow = Borrow::where('status','Borrowed')->count();
                 $return = Borrow::where('status','Returned')->count();
                 return view('admin.index', compact('admin','patron','book','borrow','return'));
             }else if ($user_type == 'patron') {
@@ -41,15 +42,15 @@ class AdminController extends Controller
 
     public function add_category(Request $request)
     {
-        $data= new Category; 
+        $data= new Category;
         $data->category_name = $request->category_name;
         $data->save();
-        return redirect()->back()->with('message','Category added successfully'); 
+        return redirect()->back()->with('message','Category added successfully');
     }
 
     public function display_category()
     {
-        $category = Category::all();
+        $category = Category::orderBy('category_name', 'asc')->get();
         return view('admin.layouts.disp_category',compact('category'));
     }
 
@@ -68,10 +69,10 @@ class AdminController extends Controller
 
     public function update_category(Request $request, $id)
     {
-        $data= Category::find($id); 
+        $data= Category::find($id);
         $data->category_name = $request->category_name;
         $data->save();
-        return redirect('/display_category')->with('message','Category updated successfully'); 
+        return redirect('/display_category')->with('message','Category updated successfully');
     }
 
     public function add_book()
@@ -82,30 +83,61 @@ class AdminController extends Controller
 
     public function book_add(Request $request)
     {
-        $data = new Books;
-        $data -> book_title = $request -> book_title;
-        $data -> desc = $request -> desc;
-        $data -> author_name = $request -> author_name;
-        $data -> price = $request -> price;
-        $data -> quantity = $request -> quantity;
-        $data -> shelf_place = $request -> shelf_place;
-        $data -> categories_id = $request -> category;
-        $book_img = $request -> book_img;
-            if ($book_img)
-                {
-                   $book_image_name = time().'.'.$book_img->getClientOriginalExtension();
-                   $request->book_img->move('book',$book_image_name);
-                   $data -> book_img = $book_image_name; 
-                }
-        $author_img = $request -> author_img;
-        if ($author_img)
-            {
-                $author_image_name = time().'.'.$author_img->getClientOriginalExtension();
-                $request->author_img->move('author',$author_image_name);
-                $data -> author_img = $author_image_name; 
-            }
-        $data -> save();
-        return redirect()->back();
+        // Validate input
+        $validator = Validator::make($request->all(), [
+            'book_title' => 'required|string|max:255',
+            'book_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'desc' => 'required|string',
+            'author_name' => 'required|string|max:255',
+            'author_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'price' => 'required|integer',
+            'quantity' => 'required|integer',
+            'shelf_place' => 'required|string|max:255',
+            'publication' => 'nullable|string|max:255',
+            'publisher_name' => 'nullable|string|max:255',
+            'year' => 'nullable|integer',
+            'editor' => 'nullable|string|max:255',
+            'pg_rating' => 'required|in:PG,18+,R',
+            'category' => 'required|exists:categories,id',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Handle file uploads
+        $book_img = $request->file('book_img');
+        $author_img = $request->file('author_img');
+
+        $book = new Books;
+        $book->book_title = $request->input('book_title');
+        $book->desc = $request->input('desc');
+        $book->author_name = $request->input('author_name');
+        $book->price = $request->input('price');
+        $book->quantity = $request->input('quantity');
+        $book->shelf_place = $request->input('shelf_place');
+        $book->publication = $request->input('publication');
+        $book->publisher_name = $request->input('publisher_name');
+        $book->year = $request->input('year');
+        $book->editor = $request->input('editor');
+        $book->pg_rating = $request->input('pg_rating');
+        $book->categories_id = $request->input('category');
+
+        if ($book_img) {
+            $book_image_name = time().'.'.$book_img->getClientOriginalExtension();
+            $book_img->move('book', $book_image_name);
+            $book->book_img = $book_image_name;
+        }
+
+        if ($author_img) {
+            $author_image_name = time().'.'.$author_img->getClientOriginalExtension();
+            $author_img->move('author', $author_image_name);
+            $book->author_img = $author_image_name;
+        }
+
+        $book->save();
+
+        return redirect()->back()->with('message', 'Book added successfully!');
     }
 
     public function display_book()
@@ -143,18 +175,18 @@ class AdminController extends Controller
                 {
                    $book_image_name = time().'.'.$book_img->getClientOriginalExtension();
                    $request->book_img->move('book',$book_image_name);
-                   $data -> book_img = $book_image_name; 
+                   $data -> book_img = $book_image_name;
                 }
         $author_img = $request -> author_img;
         if ($author_img)
             {
                 $author_image_name = time().'.'.$author_img->getClientOriginalExtension();
                 $request->author_img->move('author',$author_image_name);
-                $data -> author_img = $author_image_name; 
+                $data -> author_img = $author_image_name;
             }
         $data->save();
 
-        return redirect('/display_book')->with('message','Title has been updated successfully'); 
+        return redirect('/display_book')->with('message','Title has been updated successfully');
     }
 
     public function borrow_request()
@@ -166,12 +198,20 @@ class AdminController extends Controller
     public function approve_book($id)
     {
         $data = Borrow::find($id);
+        $data -> status = 'Approved';
+        $data -> save();
+        return redirect()->back()->with('message','Borrow Request approved');
+    }
+
+    public function borrow_book($id)
+    {
+        $data = Borrow::find($id);
         $status = $data->status;
-        if ($status == 'Approved') {
+        if ($status == 'Borrowed') {
             return redirect()->back();
         }
         else {
-            $data -> status = 'Approved';
+            $data -> status = 'Borrowed';
             $data -> due_date = Carbon::now()->addDays(3);
             $data -> save();
             $book_id = $data->books_id;
@@ -179,7 +219,7 @@ class AdminController extends Controller
             $book_quantity = $book->quantity - '1';
             $book->quantity = $book_quantity;
             $book->save();
-            return redirect()->back()->with('message','Borrow request approved');
+            return redirect()->back()->with('message','Request Book has been borrowed');
         }
     }
 

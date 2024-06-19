@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head> 
+  <head>
     @include('admin.layouts.head')
 
     <style>
@@ -23,7 +23,7 @@
 
   <body>
 
-    <header class="header">   
+    <header class="header">
       @include('admin.layouts.header')
     </header>
 
@@ -72,7 +72,7 @@
 
       </div>
     </div>
-    
+
     <script>
       function confirmation(ev) {
         ev.preventDefault();
@@ -93,7 +93,7 @@
       }
 
     </script>
-    
+
     @include('admin.layouts.script')
 
   </body>
