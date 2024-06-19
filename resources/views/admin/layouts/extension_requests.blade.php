@@ -169,8 +169,8 @@
         var tr = table.getElementsByTagName('tr');
 
         for (var i = 0; i < tr.length; i++) {
-          var tdDueDate = tr[i].getElementsByTagName('td')[11];
-          var tdStatus = tr[i].getElementsByTagName('td')[8];
+          var tdDueDate = tr[i].getElementsByTagName('td')[4];
+          var tdStatus = tr[i].getElementsByTagName('td')[5];
           var showRow = true;
 
           if (tdDueDate) {
