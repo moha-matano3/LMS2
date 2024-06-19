@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head> 
+  <head>
     @include('admin.layouts.head')
 
     <style>
@@ -28,7 +28,7 @@
 
   <body>
 
-    <header class="header">   
+    <header class="header">
       @include('admin.layouts.header')
     </header>
 
@@ -60,6 +60,7 @@
                         <th>Description</th>
                         <th>Author</th>
                         <th>Author Image</th>
+                        <th>PG Rating</th>
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Category</th>
@@ -76,6 +77,7 @@
                         <td>{{$book->desc}}</td>
                         <td>{{$book->author_name}}</td>
                         <td><img class="img-thumbnail" src="author/{{$book->author_img}}"></td>
+                        <td>{{$book->pg_rating}}</td>
                         <td>{{$book->price}}</td>
                         <td>{{$book->quantity}}</td>
                         <td>{{$book->categories->category_name}}</td>
@@ -99,7 +101,7 @@
 
       </div>
     </div>
-    
+
     <script>
       function confirmation(ev) {
         ev.preventDefault();
@@ -120,7 +122,7 @@
       }
 
     </script>
-    
+
     @include('admin.layouts.script')
 
   </body>

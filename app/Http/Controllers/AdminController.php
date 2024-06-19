@@ -9,6 +9,7 @@ use App\Models\Books;
 use App\Models\Borrow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -82,30 +83,61 @@ class AdminController extends Controller
 
     public function book_add(Request $request)
     {
-        $data = new Books;
-        $data -> book_title = $request -> book_title;
-        $data -> desc = $request -> desc;
-        $data -> author_name = $request -> author_name;
-        $data -> price = $request -> price;
-        $data -> quantity = $request -> quantity;
-        $data -> shelf_place = $request -> shelf_place;
-        $data -> categories_id = $request -> category;
-        $book_img = $request -> book_img;
-            if ($book_img)
-                {
-                   $book_image_name = time().'.'.$book_img->getClientOriginalExtension();
-                   $request->book_img->move('book',$book_image_name);
-                   $data -> book_img = $book_image_name;
-                }
-        $author_img = $request -> author_img;
-        if ($author_img)
-            {
-                $author_image_name = time().'.'.$author_img->getClientOriginalExtension();
-                $request->author_img->move('author',$author_image_name);
-                $data -> author_img = $author_image_name;
-            }
-        $data -> save();
-        return redirect()->back();
+        // Validate input
+        $validator = Validator::make($request->all(), [
+            'book_title' => 'required|string|max:255',
+            'book_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'desc' => 'required|string',
+            'author_name' => 'required|string|max:255',
+            'author_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'price' => 'required|integer',
+            'quantity' => 'required|integer',
+            'shelf_place' => 'required|string|max:255',
+            'publication' => 'nullable|string|max:255',
+            'publisher_name' => 'nullable|string|max:255',
+            'year' => 'nullable|integer',
+            'editor' => 'nullable|string|max:255',
+            'pg_rating' => 'required|in:PG,18+,R',
+            'category' => 'required|exists:categories,id',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Handle file uploads
+        $book_img = $request->file('book_img');
+        $author_img = $request->file('author_img');
+
+        $book = new Books;
+        $book->book_title = $request->input('book_title');
+        $book->desc = $request->input('desc');
+        $book->author_name = $request->input('author_name');
+        $book->price = $request->input('price');
+        $book->quantity = $request->input('quantity');
+        $book->shelf_place = $request->input('shelf_place');
+        $book->publication = $request->input('publication');
+        $book->publisher_name = $request->input('publisher_name');
+        $book->year = $request->input('year');
+        $book->editor = $request->input('editor');
+        $book->pg_rating = $request->input('pg_rating');
+        $book->categories_id = $request->input('category');
+
+        if ($book_img) {
+            $book_image_name = time().'.'.$book_img->getClientOriginalExtension();
+            $book_img->move('book', $book_image_name);
+            $book->book_img = $book_image_name;
+        }
+
+        if ($author_img) {
+            $author_image_name = time().'.'.$author_img->getClientOriginalExtension();
+            $author_img->move('author', $author_image_name);
+            $book->author_img = $author_image_name;
+        }
+
+        $book->save();
+
+        return redirect()->back()->with('message', 'Book added successfully!');
     }
 
     public function display_book()

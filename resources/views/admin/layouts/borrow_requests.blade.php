@@ -110,8 +110,10 @@
                                       <th>Patron's Name</th>
                                       <th>Email</th>
                                       <th>Phone</th>
+                                      <th>Patron's Age</th>
                                       <th>Book Title</th>
                                       <th>Book Image</th>
+                                      <th>PG Rating</th>
                                       <th>Quantity</th>
                                       <th>Request Status</th>
                                       <th>Request date</th>
@@ -130,8 +132,10 @@
                                     <td>{{ $borrow->user->name ?? '' }}</td>
                                     <td>{{ $borrow->user->email ?? '' }}</td>
                                     <td>{{ $borrow->user->phone ?? '' }}</td>
+                                    <td>{{ $borrow->user->age ?? '' }}</td>
                                     <td>{{ $borrow->books->book_title ?? '' }}</td>
                                     <td><img class="img_book" src="book/{{ $borrow->books->book_img ?? '' }}"></td>
+                                    <td>{{ $borrow->books->pg_rating ?? '' }}</td>
                                     <td>{{ $borrow->books->quantity ?? '' }}</td>
                                     <td>{{ $borrow->status ?? '' }}</td>
                                     <td>{{ $borrow->created_at ?? '' }}</td>

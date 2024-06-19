@@ -6,7 +6,7 @@
 
         <x-validation-errors class="mb-4" />
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
             @csrf
 
             <div>
@@ -27,6 +27,16 @@
             <div class="mt-4">
                 <x-label for="address" value="{{ __('Address') }}" />
                 <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required autocomplete="address" />
+            </div>
+
+            <div class="mt-4">
+                <x-label for="date_of_birth" value="{{ __('Date of Birth') }}" />
+                <x-input id="date_of_birth" class="block mt-1 w-full" type="date" name="date_of_birth" :value="old('date_of_birth')" required />
+            </div>
+
+            <div class="mt-4">
+                <x-label for="profile_photo" value="{{ __('Profile Photo') }}" />
+                <x-input id="profile_photo" class="block mt-1 w-full" type="file" name="profile_photo" accept="image/jpeg,image/png,image/jpg,image/webp"/>
             </div>
 
             <div class="mt-4">
