@@ -20,7 +20,7 @@ class HomeController extends Controller
     public function browse_books()
     {
         $data = Books::all();
-        $category = Category::all();
+        $category = Category::orderBy('category_name', 'asc')->get();
         return view ('patron.layouts.browse_books',compact('data','category'));
     }
     public function borrow_books($id)
