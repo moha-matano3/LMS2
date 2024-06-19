@@ -18,6 +18,9 @@ class books extends Model
         'price',
         'quantity',
         'shelf_place',
+        'publisher_name',
+        'year',
+        'pg_rating',
         'categories_id',
     ];
 

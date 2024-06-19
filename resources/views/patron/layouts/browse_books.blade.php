@@ -18,8 +18,8 @@
             }
             .tile
             {
-            width:380px;
-            height:380px;
+            width:300px;
+            height:420px;
             margin:10px;
             display:inline-block;
             background-size:cover;
@@ -115,9 +115,9 @@
             opacity:1;
             transform:translateY(0px);
             }
-            @media (max-width: 500px) {
+            @media (max-width: 700px) {
                 .wrap {
-                    flex-direction: column;
+                    flex-direction: grid;
                     width: auto;
                 }
             }

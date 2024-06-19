@@ -9,8 +9,8 @@
         </div>
         <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
         <ul class="list-unstyled">
-                <li class="active"><a href="/home"> <i class="icon-home"></i>Home </a></li>
-                <li><a href="{{url('browse_books')}}"><i class="fas fa-folder-open"></i>Browse Books</a></li>
-                <li><a href="{{url('patron_requests')}}"><i class="fas fa-paper-plane"></i>My Requests</a></li>
+                <li class="{{ request()->is('home') ? 'active' : '' }}"><a href="/home"> <i class="icon-home"></i>Home </a></li>
+                <li class="{{ request()->is('browse_books') ? 'active' : '' }}"><a href="{{url('browse_books')}}"><i class="fas fa-folder-open"></i>Browse Books</a></li>
+                <li class="{{ request()->is('patron_requests') ? 'active' : '' }}"><a href="{{url('patron_requests')}}"><i class="fas fa-paper-plane"></i>My Requests</a></li>
         </ul>
       </nav>

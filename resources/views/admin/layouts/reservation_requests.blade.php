@@ -93,11 +93,9 @@
                                 <input type="date" id="dueDate" name="dueDate" placeholder="Due Date">
                                 <select id="status" name="status">
                                     <option value="">Select Status</option>
-                                    <option value="Applied">Applied</option>
-                                    <option value="Approved">Approved</option>
-                                    <option value="Borrowed">Borrowed</option>
+                                    <option value="Accepted">Accepted</option>
                                     <option value="Rejected">Rejected</option>
-                                    <option value="Returned">Returned</option>
+
                                 </select>
                                 <button type="button" onclick="filterTable()">Filter</button>
                             </form>
@@ -115,7 +113,7 @@
                                       <th>Book Image</th>
                                       <th>PG Rating</th>
                                       <th>Quantity</th>
-                                      <th>Request Status</th>
+                                      <th>Reservation Status</th>
                                       <th>Request date</th>
                                       <th>Review date</th>
                                       <th>Due date</th>
@@ -177,17 +175,7 @@
                                         @endif
                                     </td>
 
-                                    <td>
-                                        @if($borrow->status == 'Rejected' || $borrow->status == 'Returned' || $borrow->status == 'Approved' || $borrow->status == 'Applied')
-                                            <a class="btn-sm btn-secondary disabled" href="#" title="Return" disabled>
-                                                <i class="fas fa-undo"></i>
-                                            </a>
-                                        @else
-                                            <a class="btn-sm btn-secondary" href="#" onclick="confirmation(event, 'Are you sure you want to return this book?', '{{ url('return_book', $borrow->id) }}')" title="Return">
-                                                <i class="fas fa-undo"></i>
-                                            </a>
-                                        @endif
-                                    </td>
+
 
 
 
@@ -263,4 +251,3 @@
 
 </body>
 </html>
-

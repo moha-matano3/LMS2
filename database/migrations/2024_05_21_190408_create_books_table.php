@@ -21,6 +21,9 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('quantity');
             $table->string('shelf_place');
+            $table->string('publisher_name')->nullable();
+            $table->integer('year')->nullable();
+            $table->enum('pg_rating', ['PG', '18+', 'R'])->nullable();
             $table->foreignId('categories_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head> 
+  <head>
     @include('admin.layouts.head')
 
     <style>
@@ -25,12 +25,12 @@
   </head>
 
   <body>
-        <header class="header">   
+        <header class="header">
         @include('admin.layouts.header')
         </header>
 
         <div class="d-flex align-items-stretch">
-            
+
             @include('admin.layouts.sidebar')
 
             <div class="page-content">
@@ -75,8 +75,26 @@
                                 </div>
                                 <div>
                                     <label> Shelf Placement: </label>
-                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="shelf_place" required> <br>   
-                                </div> 
+                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="shelf_place" required> <br>
+                                </div>
+
+                                <div>
+                                    <label> Publisher Name: </label>
+                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="publisher_name" value="{{ old('publisher_name') }}"><br>
+                                </div>
+                                <div>
+                                    <label> Year: </label>
+                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="number" name="year" value="{{ old('year') }}"><br>
+                                </div>
+
+                                <div>
+                                    <label> PG Rating: </label>
+                                    <select name="pg_rating" style="width: 250px;" required>
+                                        <option value="PG" {{ old('pg_rating') == 'PG' ? 'selected' : '' }}>PG</option>
+                                        <option value="18+" {{ old('pg_rating') == '18+' ? 'selected' : '' }}>18+</option>
+                                        <option value="R" {{ old('pg_rating') == 'R' ? 'selected' : '' }}>R</option>
+                                    </select>
+                                </div>
                                 <div>
                                     <label> Category </label>
                                     <select name="category" style="width: 250px;"required>
