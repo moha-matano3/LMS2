@@ -93,7 +93,7 @@
                                 <input type="date" id="dueDate" name="dueDate" placeholder="Due Date">
                                 <select id="status" name="status">
                                     <option value="">Select Status</option>
-                                    <option value="Pending">Pending</option>
+                                    <option value="Applied">Applied</option>
                                     <option value="Approved">Approved</option>
                                     <option value="Borrowed">Borrowed</option>
                                     <option value="Rejected">Rejected</option>
@@ -218,8 +218,8 @@
         var tr = table.getElementsByTagName('tr');
 
         for (var i = 0; i < tr.length; i++) {
-          var tdDueDate = tr[i].getElementsByTagName('td')[9];
-          var tdStatus = tr[i].getElementsByTagName('td')[6];
+          var tdDueDate = tr[i].getElementsByTagName('td')[11];
+          var tdStatus = tr[i].getElementsByTagName('td')[8];
           var showRow = true;
 
           if (tdDueDate) {
