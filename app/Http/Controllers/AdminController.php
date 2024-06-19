@@ -49,7 +49,7 @@ class AdminController extends Controller
 
     public function display_category()
     {
-        $category = Category::all();
+        $category = Category::orderBy('category_name', 'asc')->get();
         return view('admin.layouts.disp_category',compact('category'));
     }
 

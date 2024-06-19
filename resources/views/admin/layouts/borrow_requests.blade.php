@@ -42,6 +42,7 @@
       .btn-sm:disabled {
         pointer-events: none;
         opacity: 0.5;
+        color: #aaa; /* Optional: change the color to a lighter grey */
       }
       @media (max-width: 768px) {
 
@@ -57,7 +58,7 @@
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
 <body>
@@ -141,48 +142,50 @@
                                             <a class="btn-sm btn-primary disabled" href="#" title="Approve" disabled>
                                                 <i class="fas fa-check"></i>
                                             </a>
-                                        @elseif($borrow->status == 'Applied')
-                                            <a class="btn-sm btn-primary" href="{{ url('approve_book', $borrow->id) }}" title="Approve">
+                                        @else
+                                            <a class="btn-sm btn-primary" href="#" onclick="confirmation(event, 'Are you sure you want to approve this book?', '{{ url('approve_book', $borrow->id) }}')" title="Approve">
                                                 <i class="fas fa-check"></i>
                                             </a>
                                         @endif
                                     </td>
 
                                     <td>
-                                        @if($borrow->status == 'Borrowed' || $borrow->status == 'Rejected' || $borrow->status == 'Returned')
+                                        @if($borrow->status == 'Borrowed' || $borrow->status == 'Rejected' || $borrow->status == 'Returned' || $borrow->status == 'Applied')
                                             <a class="btn-sm btn-success disabled" href="#" title="Borrow" disabled>
                                                 <i class="fas fa-thumbs-up"></i>
                                             </a>
                                         @else
-                                            <a class="btn-sm btn-success" href="{{ url('borrow_book', $borrow->id) }}" title="Borrow">
+                                            <a class="btn-sm btn-success" href="#" onclick="confirmation(event, 'Are you sure you want to borrow this book?', '{{ url('borrow_book', $borrow->id) }}')" title="Borrow">
                                                 <i class="fas fa-thumbs-up"></i>
                                             </a>
                                         @endif
                                     </td>
 
                                     <td>
-                                        @if($borrow->status == 'Rejected' ||  $borrow->status == 'Borrowed' || $borrow->status == 'Returned')
+                                        @if($borrow->status == 'Rejected' || $borrow->status == 'Borrowed' || $borrow->status == 'Returned')
                                             <a class="btn-sm btn-warning disabled" href="#" title="Deny" disabled>
                                                 <i class="fas fa-thumbs-down"></i>
                                             </a>
                                         @else
-                                            <a class="btn-sm btn-warning" href="{{ url('deny_book', $borrow->id) }}" title="Deny">
+                                            <a class="btn-sm btn-warning" href="#" onclick="confirmation(event, 'Are you sure you want to deny this book?', '{{ url('deny_book', $borrow->id) }}')" title="Deny">
                                                 <i class="fas fa-thumbs-down"></i>
                                             </a>
                                         @endif
                                     </td>
 
                                     <td>
-                                        @if($borrow->status == 'Rejected' || $borrow->status == 'Returned' || $borrow->status == 'Approved')
+                                        @if($borrow->status == 'Rejected' || $borrow->status == 'Returned' || $borrow->status == 'Approved' || $borrow->status == 'Applied')
                                             <a class="btn-sm btn-secondary disabled" href="#" title="Return" disabled>
                                                 <i class="fas fa-undo"></i>
                                             </a>
                                         @else
-                                            <a class="btn-sm btn-secondary" href="{{ url('return_book', $borrow->id) }}" title="Return">
+                                            <a class="btn-sm btn-secondary" href="#" onclick="confirmation(event, 'Are you sure you want to return this book?', '{{ url('return_book', $borrow->id) }}')" title="Return">
                                                 <i class="fas fa-undo"></i>
                                             </a>
                                         @endif
                                     </td>
+
+
 
 
                                 </tr>
@@ -233,6 +236,26 @@
         }
       }
     </script>
+
+<script>
+    function confirmation(event, message, url) {
+        event.preventDefault();
+        Swal.fire({
+            title: message,
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, proceed!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
+            }
+        });
+    }
+</script>
+
 
 </body>
 </html>
