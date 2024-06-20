@@ -38,7 +38,8 @@ class AdminController extends Controller
                 return view('admin.index', compact('admin','patron','book','borrow','return','borrowRequests','extensionRequests'));
             }else if ($user_type == 'patron') {
                 $data=Books::all();
-                return view('patron.index',compact('data'));
+                $latestBooks = Books::orderBy('created_at', 'desc')->take(3)->get();
+                return view('patron.index',compact('data','latestBooks'));
             }else {
                 return redirect()->back();
             }
