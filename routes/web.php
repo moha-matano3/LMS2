@@ -74,6 +74,7 @@ route::get('/search_book',[HomeController::class,'search_book']);
 
 route::get('/category_search/{id}',[HomeController::class,'category_search']);
 
+Route::get('/about', function () {return view('about');})->name('about');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {

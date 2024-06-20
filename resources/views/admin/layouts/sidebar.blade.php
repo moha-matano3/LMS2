@@ -41,8 +41,6 @@
             <li class="{{ request()->is('borrow_request') ? 'active' : '' }}">
                 <a href="{{ url('borrow_request') }}"><i class="fas fa-paper-plane"></i> Borrow Requests</a>
             </li>
-<<<<<<< HEAD
-=======
             <li class="{{ request()->is('extension_request') ? 'active' : '' }}">
                 <a href="{{ url('extension_request') }}"><i class="fas fa-clock-o"></i> Extension Requests</a>
             </li>
@@ -54,7 +52,6 @@
             <li class="{{ request()->is('extension_request') ? 'active' : '' }}">
                 <a href="{{ route('profile.show') }}"> <i class="icon-settings"></i>Update Profile </a>
             </li>
->>>>>>> a20294a795d252514ff800654ae33511a366418c
         </ul>
 
 

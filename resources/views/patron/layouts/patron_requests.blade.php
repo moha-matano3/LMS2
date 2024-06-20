@@ -87,8 +87,6 @@
                         <td>{{$data->due_date}}</td>
                         <td><span class="timer" data-due="{{$data->due_date}}"></span></td>
                         <td>
-<<<<<<< HEAD
-=======
                             @if ($data->extension_status == 'none' && $data->status == 'Borrowed')
                                 <a href="{{ url('request_extension', $data->id) }}" class="btn btn-warning">Request Extension</a>
                             @elseif ($data->extension_status == 'pending')
@@ -103,7 +101,6 @@
                         </td>
 
                         <td>
->>>>>>> a20294a795d252514ff800654ae33511a366418c
                           @if ($data -> status == 'Applied' || $data -> status == 'Approved')
                             <a href="{{url('cancel_request',$data->id)}}" class="btn btn-danger">Cancel</a>
                             @else
