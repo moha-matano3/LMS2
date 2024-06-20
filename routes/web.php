@@ -54,13 +54,10 @@ route::get('/reservation_request',[AdminController::class,'reservation_request']
 
 route::get('/approve_book/{id}',[AdminController::class,'approve_book']);
 
-<<<<<<< HEAD
-=======
 route::get('/approve_extension/{id}',[AdminController::class,'approve_extension']);
 
 route::get('/reject_extension/{id}',[AdminController::class,'reject_extension']);
 
->>>>>>> a20294a795d252514ff800654ae33511a366418c
 route::get('/borrow_book/{id}',[AdminController::class,'borrow_book']);
 
 route::get('/deny_book/{id}',[AdminController::class,'deny_book']);
@@ -77,9 +74,6 @@ route::get('/search_book',[HomeController::class,'search_book']);
 
 route::get('/category_search/{id}',[HomeController::class,'category_search']);
 
-<<<<<<< HEAD
-Route::get('/about', function () {return view('about');})->name('about');
-=======
 
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -87,4 +81,3 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 });
->>>>>>> a20294a795d252514ff800654ae33511a366418c
