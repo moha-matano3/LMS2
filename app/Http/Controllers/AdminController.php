@@ -114,15 +114,8 @@ class AdminController extends Controller
         $book->price = $request->input('price');
         $book->quantity = $request->input('quantity');
         $book->shelf_place = $request->input('shelf_place');
-<<<<<<< HEAD
-        $book->publication = $request->input('publication');
         $book->publisher_name = $request->input('publisher_name');
         $book->year = $request->input('year');
-        $book->editor = $request->input('editor');
-=======
-        $book->publisher_name = $request->input('publisher_name');
-        $book->year = $request->input('year');
->>>>>>> a20294a795d252514ff800654ae33511a366418c
         $book->pg_rating = $request->input('pg_rating');
         $book->categories_id = $request->input('category');
 
@@ -227,11 +220,7 @@ class AdminController extends Controller
         }
         else {
             $data -> status = 'Borrowed';
-<<<<<<< HEAD
-            $data -> due_date = Carbon::now()->addDays(3);
-=======
             $data -> due_date = Carbon::now()->addWeek(1);
->>>>>>> a20294a795d252514ff800654ae33511a366418c
             $data -> save();
             $book_id = $data->books_id;
             $book = Books::find($book_id);
