@@ -93,15 +93,9 @@
                                 <input type="date" id="dueDate" name="dueDate" placeholder="Due Date">
                                 <select id="status" name="status">
                                     <option value="">Select Status</option>
-<<<<<<< HEAD
-                                    <option value="Pending">Pending</option>
-=======
-                                    <option value="Applied">Applied</option>
->>>>>>> a20294a795d252514ff800654ae33511a366418c
-                                    <option value="Approved">Approved</option>
-                                    <option value="Borrowed">Borrowed</option>
+                                    <option value="Accepted">Accepted</option>
                                     <option value="Rejected">Rejected</option>
-                                    <option value="Returned">Returned</option>
+
                                 </select>
                                 <button type="button" onclick="filterTable()">Filter</button>
                             </form>
@@ -119,7 +113,7 @@
                                       <th>Book Image</th>
                                       <th>PG Rating</th>
                                       <th>Quantity</th>
-                                      <th>Request Status</th>
+                                      <th>Reservation Status</th>
                                       <th>Request date</th>
                                       <th>Review date</th>
                                       <th>Due date</th>
@@ -151,11 +145,7 @@
                                                 <i class="fas fa-check"></i>
                                             </a>
                                         @else
-<<<<<<< HEAD
                                             <a class="btn-sm btn-primary" href="#" onclick="confirmation(event, 'Are you sure you want to approve this book?', '{{ url('approve_book', $borrow->id) }}')" title="Approve">
-=======
-                                            <a class="btn-sm btn-primary" href="#" onclick="confirmation(event, 'Approve this book?', '{{ url('approve_book', $borrow->id) }}')" title="Approve">
->>>>>>> a20294a795d252514ff800654ae33511a366418c
                                                 <i class="fas fa-check"></i>
                                             </a>
                                         @endif
@@ -167,11 +157,7 @@
                                                 <i class="fas fa-thumbs-up"></i>
                                             </a>
                                         @else
-<<<<<<< HEAD
                                             <a class="btn-sm btn-success" href="#" onclick="confirmation(event, 'Are you sure you want to borrow this book?', '{{ url('borrow_book', $borrow->id) }}')" title="Borrow">
-=======
-                                            <a class="btn-sm btn-success" href="#" onclick="confirmation(event, 'Lend this book?', '{{ url('borrow_book', $borrow->id) }}')" title="Borrow">
->>>>>>> a20294a795d252514ff800654ae33511a366418c
                                                 <i class="fas fa-thumbs-up"></i>
                                             </a>
                                         @endif
@@ -183,31 +169,13 @@
                                                 <i class="fas fa-thumbs-down"></i>
                                             </a>
                                         @else
-<<<<<<< HEAD
                                             <a class="btn-sm btn-warning" href="#" onclick="confirmation(event, 'Are you sure you want to deny this book?', '{{ url('deny_book', $borrow->id) }}')" title="Deny">
-=======
-                                            <a class="btn-sm btn-warning" href="#" onclick="confirmation(event, 'Deny book request?', '{{ url('deny_book', $borrow->id) }}')" title="Deny">
->>>>>>> a20294a795d252514ff800654ae33511a366418c
                                                 <i class="fas fa-thumbs-down"></i>
                                             </a>
                                         @endif
                                     </td>
 
-                                    <td>
-                                        @if($borrow->status == 'Rejected' || $borrow->status == 'Returned' || $borrow->status == 'Approved' || $borrow->status == 'Applied')
-                                            <a class="btn-sm btn-secondary disabled" href="#" title="Return" disabled>
-                                                <i class="fas fa-undo"></i>
-                                            </a>
-                                        @else
-<<<<<<< HEAD
-                                            <a class="btn-sm btn-secondary" href="#" onclick="confirmation(event, 'Are you sure you want to return this book?', '{{ url('return_book', $borrow->id) }}')" title="Return">
-=======
-                                            <a class="btn-sm btn-secondary" href="#" onclick="confirmation(event, 'Book retruned by member?', '{{ url('return_book', $borrow->id) }}')" title="Return">
->>>>>>> a20294a795d252514ff800654ae33511a366418c
-                                                <i class="fas fa-undo"></i>
-                                            </a>
-                                        @endif
-                                    </td>
+
 
 
 
@@ -238,13 +206,8 @@
         var tr = table.getElementsByTagName('tr');
 
         for (var i = 0; i < tr.length; i++) {
-<<<<<<< HEAD
-          var tdDueDate = tr[i].getElementsByTagName('td')[9];
-          var tdStatus = tr[i].getElementsByTagName('td')[6];
-=======
           var tdDueDate = tr[i].getElementsByTagName('td')[11];
           var tdStatus = tr[i].getElementsByTagName('td')[8];
->>>>>>> a20294a795d252514ff800654ae33511a366418c
           var showRow = true;
 
           if (tdDueDate) {
@@ -288,4 +251,3 @@
 
 </body>
 </html>
-

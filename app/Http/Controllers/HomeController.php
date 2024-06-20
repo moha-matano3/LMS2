@@ -56,7 +56,11 @@ class HomeController extends Controller
             else {
                 return redirect() -> back() -> with('message','Not Enough books, kindly wait');
             }
+<<<<<<< HEAD
         }   
+=======
+        }
+>>>>>>> a20294a795d252514ff800654ae33511a366418c
     }
 
     public function patron_requests()
@@ -74,6 +78,14 @@ class HomeController extends Controller
         $data -> delete();
         return redirect() -> back() -> with('message','Request cancelled successfully');
     }
+    public function request_extension($id)
+    {
+       $borrow = Borrow::find($id);
+       $borrow->extension_status = 'pending';
+       $borrow->save();
+       return redirect()->back()->with('message', 'Extension request sent to Admin');
+    }
+
 
     public function search_book(Request $request)
     {

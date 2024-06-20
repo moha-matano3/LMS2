@@ -1,7 +1,7 @@
 <nav id="sidebar">
         <!-- Sidebar Header-->
         <div class="sidebar-header d-flex align-items-center">
-          <div class="avatar"><img src="{{asset('../images/avatar.jpg')}}" alt="..." class="img-fluid rounded-circle"></div>
+          <div class="avatar"><img src="{{ Auth::user()->profile_photo_url }}" alt="..." class="img-fluid rounded-circle"></div>
           <div class="title">
             <h1 class="h5">{{Auth::user()->name}}</h1>
             <p>Hekima Library Admin</p>
@@ -41,6 +41,20 @@
             <li class="{{ request()->is('borrow_request') ? 'active' : '' }}">
                 <a href="{{ url('borrow_request') }}"><i class="fas fa-paper-plane"></i> Borrow Requests</a>
             </li>
+<<<<<<< HEAD
+=======
+            <li class="{{ request()->is('extension_request') ? 'active' : '' }}">
+                <a href="{{ url('extension_request') }}"><i class="fas fa-clock-o"></i> Extension Requests</a>
+            </li>
+            <li class="{{ request()->is('reservation_request') ? 'active' : '' }}">
+                <a href="{{ url('reservation_request') }}"><i class="fas fa-calendar-check-o"></i> Reservation Requests</a>
+            </li>
+        </ul><span class="heading">Extras</span>
+        <ul class="list-unstyled">
+            <li class="{{ request()->is('extension_request') ? 'active' : '' }}">
+                <a href="{{ route('profile.show') }}"> <i class="icon-settings"></i>Update Profile </a>
+            </li>
+>>>>>>> a20294a795d252514ff800654ae33511a366418c
         </ul>
 
 

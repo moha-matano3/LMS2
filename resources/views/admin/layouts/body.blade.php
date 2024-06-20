@@ -5,7 +5,7 @@
                 <div class="statistic-block block">
                   <div class="progress-details d-flex align-items-end justify-content-between">
                     <div class="title">
-                      <div class="icon"><i class="icon-user-1"></i></div><strong>No. of Patrons</strong>
+                      <div class="icon"><i class="icon-user-1"></i></div><strong>No. of Members</strong>
                     </div>
                     <div class="number dashtext-1">{{$patron}}</div>
                   </div>
@@ -43,4 +43,21 @@
               </div>
             </div>
           </div>
+
+          <div class="col-md-3 col-sm-6">
+        <div class="statistic-block block">
+          <div class="progress-details d-flex align-items-end justify-content-between">
+            <div class="title">
+              <div class="icon"><i class="icon-clipboard"></i></div>
+              <strong>Borrow Requests</strong>
+            </div>
+            <div class="number dashtext-5">{{}}</div> 
+          </div>
+          <div class="preview">
+            <a href="/borrow-requests" class="tag">View Requests</a> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>

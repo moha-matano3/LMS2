@@ -93,10 +93,15 @@ class AdminController extends Controller
             'price' => 'required|integer',
             'quantity' => 'required|integer',
             'shelf_place' => 'required|string|max:255',
+<<<<<<< HEAD
             'publication' => 'nullable|string|max:255',
             'publisher_name' => 'nullable|string|max:255',
             'year' => 'nullable|integer',
             'editor' => 'nullable|string|max:255',
+=======
+            'publisher_name' => 'nullable|string|max:255',
+            'year' => 'nullable|integer',
+>>>>>>> a20294a795d252514ff800654ae33511a366418c
             'pg_rating' => 'required|in:PG,18+,R',
             'category' => 'required|exists:categories,id',
         ]);
@@ -116,10 +121,15 @@ class AdminController extends Controller
         $book->price = $request->input('price');
         $book->quantity = $request->input('quantity');
         $book->shelf_place = $request->input('shelf_place');
+<<<<<<< HEAD
         $book->publication = $request->input('publication');
         $book->publisher_name = $request->input('publisher_name');
         $book->year = $request->input('year');
         $book->editor = $request->input('editor');
+=======
+        $book->publisher_name = $request->input('publisher_name');
+        $book->year = $request->input('year');
+>>>>>>> a20294a795d252514ff800654ae33511a366418c
         $book->pg_rating = $request->input('pg_rating');
         $book->categories_id = $request->input('category');
 
@@ -142,7 +152,7 @@ class AdminController extends Controller
 
     public function display_book()
     {
-        $book = Books::all();
+        $book = Books::orderBy('shelf_place', 'asc')->get();
         return view ('admin.layouts.disp_book',compact('book'));
     }
 
@@ -195,6 +205,18 @@ class AdminController extends Controller
         return view('admin.layouts.borrow_requests', compact('data'));
     }
 
+    public function extension_request()
+    {
+        $data = Borrow::where('extension_status', '!=', 'none')->get();
+        return view('admin.layouts.extension_requests', compact('data'));
+    }
+
+    public function reservation_request()
+    {
+        $data = Borrow::all();
+        return view('admin.layouts.reservation_requests', compact('data'));
+    }
+
     public function approve_book($id)
     {
         $data = Borrow::find($id);
@@ -212,7 +234,11 @@ class AdminController extends Controller
         }
         else {
             $data -> status = 'Borrowed';
+<<<<<<< HEAD
             $data -> due_date = Carbon::now()->addDays(3);
+=======
+            $data -> due_date = Carbon::now()->addWeek(1);
+>>>>>>> a20294a795d252514ff800654ae33511a366418c
             $data -> save();
             $book_id = $data->books_id;
             $book = Books::find($book_id);
@@ -250,5 +276,24 @@ class AdminController extends Controller
             $book->save();
             return redirect()->back()->with('message','Book Returned');
         }
+    }
+    public function approve_extension($id)
+    {
+       $borrow = Borrow::find($id);
+       $borrow->extension_status = 'Accepted';
+       $dueDate = Carbon::parse($borrow->due_date);
+
+       // Add 3 days to the due_date
+       $borrow->due_date = $dueDate->addDays(3);
+       $borrow->save();
+       return redirect()->back()->with('message', 'Extension approved');
+    }
+
+    public function reject_extension($id)
+    {
+       $borrow = Borrow::find($id);
+       $borrow->extension_status = 'Rejected';
+       $borrow->save();
+       return redirect()->back()->with('message', 'Extension rejected');
     }
 }

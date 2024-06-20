@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('books_id')->constrained()->onDelete('cascade');
             $table->foreignId('users_id')->constrained()->onDelete('cascade');
             $table->string('status')->default('Applied');
+            $table->string('extension_status')->default('none');
             $table->dateTime('due_date')->nullable();
             $table->timestamps();
         });

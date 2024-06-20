@@ -44,7 +44,11 @@ return [
             'url' => env('DB_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
+<<<<<<< HEAD
             'database' => env('DB_DATABASE', 'Community_library'),
+=======
+            'database' => env('DB_DATABASE', 'community_library'),
+>>>>>>> a20294a795d252514ff800654ae33511a366418c
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
