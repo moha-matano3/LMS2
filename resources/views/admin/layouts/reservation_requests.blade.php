@@ -105,7 +105,7 @@
                             <table class="table" id="borrowTable">
                                 <thead>
                                   <tr>
-                                      <th>Patron's Name</th>
+                                      <th>Member's Name</th>
                                       <th>Email</th>
                                       <th>Phone</th>
                                       <th>Patron's Age</th>
