@@ -93,8 +93,15 @@ class AdminController extends Controller
             'price' => 'required|integer',
             'quantity' => 'required|integer',
             'shelf_place' => 'required|string|max:255',
+<<<<<<< HEAD
             'publisher_name' => 'nullable|string|max:255',
             'year' => 'nullable|integer',
+=======
+            'publication' => 'nullable|string|max:255',
+            'publisher_name' => 'nullable|string|max:255',
+            'year' => 'nullable|integer',
+            'editor' => 'nullable|string|max:255',
+>>>>>>> 77892e75226f90fd3341628a54bbd19a90a7c50f
             'pg_rating' => 'required|in:PG,18+,R',
             'category' => 'required|exists:categories,id',
         ]);
@@ -114,8 +121,15 @@ class AdminController extends Controller
         $book->price = $request->input('price');
         $book->quantity = $request->input('quantity');
         $book->shelf_place = $request->input('shelf_place');
+<<<<<<< HEAD
         $book->publisher_name = $request->input('publisher_name');
         $book->year = $request->input('year');
+=======
+        $book->publication = $request->input('publication');
+        $book->publisher_name = $request->input('publisher_name');
+        $book->year = $request->input('year');
+        $book->editor = $request->input('editor');
+>>>>>>> 77892e75226f90fd3341628a54bbd19a90a7c50f
         $book->pg_rating = $request->input('pg_rating');
         $book->categories_id = $request->input('category');
 
@@ -220,7 +234,11 @@ class AdminController extends Controller
         }
         else {
             $data -> status = 'Borrowed';
+<<<<<<< HEAD
             $data -> due_date = Carbon::now()->addWeek(1);
+=======
+            $data -> due_date = Carbon::now()->addDays(3);
+>>>>>>> 77892e75226f90fd3341628a54bbd19a90a7c50f
             $data -> save();
             $book_id = $data->books_id;
             $book = Books::find($book_id);

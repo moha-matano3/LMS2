@@ -56,7 +56,11 @@ class HomeController extends Controller
             else {
                 return redirect() -> back() -> with('message','Not Enough books, kindly wait');
             }
+<<<<<<< HEAD
         }
+=======
+        }   
+>>>>>>> 77892e75226f90fd3341628a54bbd19a90a7c50f
     }
 
     public function patron_requests()
