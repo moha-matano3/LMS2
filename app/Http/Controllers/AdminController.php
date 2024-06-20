@@ -93,15 +93,8 @@ class AdminController extends Controller
             'price' => 'required|integer',
             'quantity' => 'required|integer',
             'shelf_place' => 'required|string|max:255',
-<<<<<<< HEAD
-            'publication' => 'nullable|string|max:255',
             'publisher_name' => 'nullable|string|max:255',
             'year' => 'nullable|integer',
-            'editor' => 'nullable|string|max:255',
-=======
-            'publisher_name' => 'nullable|string|max:255',
-            'year' => 'nullable|integer',
->>>>>>> a20294a795d252514ff800654ae33511a366418c
             'pg_rating' => 'required|in:PG,18+,R',
             'category' => 'required|exists:categories,id',
         ]);
