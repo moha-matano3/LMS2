@@ -77,14 +77,6 @@
                                     <label> Shelf Placement: </label>
                                     <input style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="shelf_place" required> <br>
                                 </div>
-<<<<<<< HEAD
-
-=======
-                                <div>
-                                    <label> Publication: </label>
-                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="publication" value="{{ old('publication') }}"><br>
-                                </div>
->>>>>>> 77892e75226f90fd3341628a54bbd19a90a7c50f
                                 <div>
                                     <label> Publisher Name: </label>
                                     <input style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="publisher_name" value="{{ old('publisher_name') }}"><br>
@@ -93,21 +85,11 @@
                                     <label> Year: </label>
                                     <input style="font-size: 15px; padding: 10px; width: 250px;" type="number" name="year" value="{{ old('year') }}"><br>
                                 </div>
-<<<<<<< HEAD
 
                                 <div>
                                     <label> Rating: </label>
                                     <select name="pg_rating" style="width: 250px;" required>
                                         <option> Select a rating </option>
-=======
-                                <div>
-                                    <label> Editor: </label>
-                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="editor" value="{{ old('editor') }}"><br>
-                                </div>
-                                <div>
-                                    <label> PG Rating: </label>
-                                    <select name="pg_rating" style="width: 250px;" required>
->>>>>>> 77892e75226f90fd3341628a54bbd19a90a7c50f
                                         <option value="PG" {{ old('pg_rating') == 'PG' ? 'selected' : '' }}>PG</option>
                                         <option value="18+" {{ old('pg_rating') == '18+' ? 'selected' : '' }}>18+</option>
                                         <option value="R" {{ old('pg_rating') == 'R' ? 'selected' : '' }}>R</option>
