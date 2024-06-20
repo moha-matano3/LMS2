@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Hekima Library</title>
     <style>
+         *
+        {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -44,9 +50,81 @@
             bottom: 0;
             width: 100%;
         }
+        .navbar
+        {
+            background: #3b3b3f;
+            text-align: center;
+        }
+        .navbar ul
+        {
+            display: inline-flex;
+            list-style: none;
+        }
+        .navbar ul li
+        {
+            width: 200px;
+            margin: 15px;
+            padding: 15px;
+        }
+        .navbar ul li a
+        {
+            text-decoration: none;
+            color: #faf9f6;
+        }
+        .navbar ul li:hover
+        {
+            background: #000;
+            border-radius: 5px
+        }
+        .subMenu
+        {
+            display: none;
+        }
+        .navbar ul li:hover .subMenu
+        {
+            display: block;
+            position: absolute;
+            background: #3b3b3f;
+            margin-top: 15px;
+            margin-left: -15px;
+        }
+        .navbar ul li:hover .subMenu ul
+        {
+            display: block;
+            margin: 10px;
+        }
+        .navbar ul li:hover .subMenu ul li
+        {
+            width: 150px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
+<div class ="navbar">
+        <ul>
+            <li> <a href="/"> Home </a></li>
+            <li> <a href="{{ route('about') }}">About</a></li>
+            <li> <a href=""> Profile </a>
+                <div class="subMenu">
+                    <ul>
+                        @if(Route::has('register'))
+                            @auth
+                            <li><a href="/home"> Dashboard </a></li>
+                            @else
+                                <li><a href="{{ route('register') }}"> Register </a></li>
+                                @if(Route::has('login'))
+                                    <li><a href="{{ route('login') }}"> Login </a></li>
+                                @endif
+                            @endauth
+                        @endif
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div><br>
     <header>
         <h1>About Hekima Library</h1>
     </header>
