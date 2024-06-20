@@ -88,8 +88,9 @@
                                 </div>
 
                                 <div>
-                                    <label> PG Rating: </label>
+                                    <label> Rating: </label>
                                     <select name="pg_rating" style="width: 250px;" required>
+                                        <option> Select a rating </option>
                                         <option value="PG" {{ old('pg_rating') == 'PG' ? 'selected' : '' }}>PG</option>
                                         <option value="18+" {{ old('pg_rating') == '18+' ? 'selected' : '' }}>18+</option>
                                         <option value="R" {{ old('pg_rating') == 'R' ? 'selected' : '' }}>R</option>

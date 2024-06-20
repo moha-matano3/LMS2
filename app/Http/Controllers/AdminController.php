@@ -138,7 +138,7 @@ class AdminController extends Controller
 
     public function display_book()
     {
-        $book = Books::all();
+        $book = Books::orderBy('shelf_place', 'asc')->get();
         return view ('admin.layouts.disp_book',compact('book'));
     }
 
@@ -220,7 +220,7 @@ class AdminController extends Controller
         }
         else {
             $data -> status = 'Borrowed';
-            $data -> due_date = Carbon::now()->addDays(7);
+            $data -> due_date = Carbon::now()->addWeek(1);
             $data -> save();
             $book_id = $data->books_id;
             $book = Books::find($book_id);

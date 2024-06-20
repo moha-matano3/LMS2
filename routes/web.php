@@ -73,3 +73,11 @@ route::get('/cancel_request/{id}',[HomeController::class,'cancel_request']);
 route::get('/search_book',[HomeController::class,'search_book']);
 
 route::get('/category_search/{id}',[HomeController::class,'category_search']);
+
+
+
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
