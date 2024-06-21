@@ -23,7 +23,8 @@
           </div>
         </div>
         
-       
+      
+        @include('patron.layouts.body') 
 
         <footer class="footer">
           @include('patron.layouts.footer')

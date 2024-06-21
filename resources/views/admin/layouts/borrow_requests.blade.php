@@ -107,10 +107,10 @@
                             <table class="table" id="borrowTable">
                                 <thead>
                                   <tr>
-                                      <th>Patron's Name</th>
+                                      <th>Member's Name</th>
                                       <th>Email</th>
                                       <th>Phone</th>
-                                      <th>Patron's Age</th>
+                                      <th>Member's Age</th>
                                       <th>Book Title</th>
                                       <th>Book Image</th>
                                       <th>PG Rating</th>
@@ -147,7 +147,7 @@
                                                 <i class="fas fa-check"></i>
                                             </a>
                                         @else
-                                            <a class="btn-sm btn-primary" href="#" onclick="confirmation(event, 'Are you sure you want to approve this book?', '{{ url('approve_book', $borrow->id) }}')" title="Approve">
+                                            <a class="btn-sm btn-primary" href="#" onclick="confirmation(event, 'Approve this book?', '{{ url('approve_book', $borrow->id) }}')" title="Approve">
                                                 <i class="fas fa-check"></i>
                                             </a>
                                         @endif
@@ -159,7 +159,7 @@
                                                 <i class="fas fa-thumbs-up"></i>
                                             </a>
                                         @else
-                                            <a class="btn-sm btn-success" href="#" onclick="confirmation(event, 'Are you sure you want to borrow this book?', '{{ url('borrow_book', $borrow->id) }}')" title="Borrow">
+                                            <a class="btn-sm btn-success" href="#" onclick="confirmation(event, 'Lend this book?', '{{ url('borrow_book', $borrow->id) }}')" title="Borrow">
                                                 <i class="fas fa-thumbs-up"></i>
                                             </a>
                                         @endif
@@ -171,7 +171,7 @@
                                                 <i class="fas fa-thumbs-down"></i>
                                             </a>
                                         @else
-                                            <a class="btn-sm btn-warning" href="#" onclick="confirmation(event, 'Are you sure you want to deny this book?', '{{ url('deny_book', $borrow->id) }}')" title="Deny">
+                                            <a class="btn-sm btn-warning" href="#" onclick="confirmation(event, 'Deny book request?', '{{ url('deny_book', $borrow->id) }}')" title="Deny">
                                                 <i class="fas fa-thumbs-down"></i>
                                             </a>
                                         @endif
@@ -183,7 +183,7 @@
                                                 <i class="fas fa-undo"></i>
                                             </a>
                                         @else
-                                            <a class="btn-sm btn-secondary" href="#" onclick="confirmation(event, 'Are you sure you want to return this book?', '{{ url('return_book', $borrow->id) }}')" title="Return">
+                                            <a class="btn-sm btn-secondary" href="#" onclick="confirmation(event, 'Book retruned by member?', '{{ url('return_book', $borrow->id) }}')" title="Return">
                                                 <i class="fas fa-undo"></i>
                                             </a>
                                         @endif

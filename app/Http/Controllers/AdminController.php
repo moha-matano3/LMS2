@@ -25,10 +25,21 @@ class AdminController extends Controller
                 $book = Books::sum('quantity');
                 $borrow = Borrow::where('status','Borrowed')->count();
                 $return = Borrow::where('status','Returned')->count();
-                return view('admin.index', compact('admin','patron','book','borrow','return'));
+                $borrowRequests = Borrow::whereIn('status', ['Applied', 'Approved'])
+                                        ->join('books', 'borrows.books_id', '=', 'books.id')
+                                        ->join('users', 'borrows.users_id', '=', 'users.id')
+                                        ->select('books.book_title as book_title', 'users.name as username', 'borrows.status')
+                                        ->get();
+                $extensionRequests = Borrow::whereIn('extension_status', ['Pending'])
+                                        ->join('books as b', 'borrows.books_id', '=', 'b.id')
+                                        ->join('users as u', 'borrows.users_id', '=', 'u.id')
+                                        ->select('b.book_title as book_title', 'u.name as username', 'borrows.status', 'borrows.due_date')
+                                        ->get();
+                return view('admin.index', compact('admin','patron','book','borrow','return','borrowRequests','extensionRequests'));
             }else if ($user_type == 'patron') {
                 $data=Books::all();
-                return view('patron.index',compact('data'));
+                $latestBooks = Books::orderBy('created_at', 'desc')->take(3)->get();
+                return view('patron.index',compact('data','latestBooks'));
             }else {
                 return redirect()->back();
             }
@@ -138,7 +149,7 @@ class AdminController extends Controller
 
     public function display_book()
     {
-        $book = Books::all();
+        $book = Books::orderBy('shelf_place', 'asc')->get();
         return view ('admin.layouts.disp_book',compact('book'));
     }
 
@@ -220,7 +231,7 @@ class AdminController extends Controller
         }
         else {
             $data -> status = 'Borrowed';
-            $data -> due_date = Carbon::now()->addDays(7);
+            $data -> due_date = Carbon::now()->addWeek(1);
             $data -> save();
             $book_id = $data->books_id;
             $book = Books::find($book_id);

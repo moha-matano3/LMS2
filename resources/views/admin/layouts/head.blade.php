@@ -19,3 +19,21 @@
     <link rel="shortcut icon" href="{{asset('../DashTemp/img/favicon.ico')}}">
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<style>
+  .borrow-request-preview {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .borrow-request-preview table {
+    width: 100%;
+    table-layout: auto;
+  }
+
+  .borrow-request-preview thead {
+    position: sticky;
+    top: 0;
+    background: #333333;
+  }
+</style>
