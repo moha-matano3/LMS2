@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head> 
+  <head>
 
     <base href="/public">
     @include('patron.layouts.head')
@@ -30,7 +30,7 @@
             overflow:hidden;
             color:white;
             font-family:'Roboto';
-            
+
             }
             .tile img
             {
@@ -50,7 +50,7 @@
             }
             .tile h1
             {
-            
+
             font-weight:300;
             margin:0;
             text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
@@ -129,7 +129,7 @@
 
   <body>
 
-    <header class="header">   
+    <header class="header">
       @include('patron.layouts.header')
     </header>
 
@@ -161,7 +161,7 @@
             </div>
             <div class="wrap">
                 @foreach ($data as $data)
-                  <div class="tile @if($data->quantity == 0) unavailable @endif"> 
+                  <div class="tile @if($data->quantity == 0) unavailable @endif">
                         <img src="book/{{$data->book_img}}">
                         <div class="text">
                             <h1>{{$data->book_title}}</h1>
@@ -170,7 +170,7 @@
                             @if($data->quantity > 0)
                               <a href="{{ url('borrow_books', $data->id) }}" class="btn-sm button animate-text">Request</a>
                               @else
-                              <a href="{{ url('reserve_book', $data->id) }}" class="btn-sm button animate-text">Books unavailable, click to reserve</a>
+                              <a href="{{ url('request_reservation', $data->id) }}" class="btn-sm button animate-text">Books unavailable, click to reserve</a>
                             @endif
                         </div>
                     </div>
@@ -179,8 +179,8 @@
 
            </div>
         </div>
-        
-       
+
+
 
         <footer class="footer">
           @include('patron.layouts.footer')
@@ -188,7 +188,7 @@
 
       </div>
     </div>
-    
+
     @include('patron.layouts.script')
 
   </body>

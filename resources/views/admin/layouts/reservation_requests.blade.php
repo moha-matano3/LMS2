@@ -93,7 +93,9 @@
                                 <input type="date" id="dueDate" name="dueDate" placeholder="Due Date">
                                 <select id="status" name="status">
                                     <option value="">Select Status</option>
-                                    <option value="Accepted">Accepted</option>
+
+                                    <option value="pending">Pending</option>
+
                                     <option value="Rejected">Rejected</option>
 
                                 </select>
@@ -103,31 +105,43 @@
 
                         <div class="table-responsive">
                             <table class="table" id="borrowTable">
-                            <thead>
-                                <tr>
-                                    <th>Book Title</th>
+                                <thead>
+                                  <tr>
                                     <th>Member's Name</th>
-                                    <th>Member's Age </th>
-                                    <th> PG Rating </th>
-                                    <th>Status</th>
+                                    <th>Book Title</th>
+                                    <th>Book Status</th>
+                                    <th>Request Date</th>
+                                    <th>Due Date</th>
+                                    <th>Reservation Status</th>
                                     <th>Actions</th>
+
+                                      <th></th>
+                                      <th></th>
+
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                @foreach ($data as $borrow)
+                                <tr>
+                                    <td>{{ $borrow->user->name }}</td>
+                                    <td>{{ $borrow->books->book_title }}</td>
+                                    <td>{{ $borrow->status }}</td>
+                                    <td>{{ $borrow->created_at }}</td>
+                                    <td>{{ $borrow->due_date }}</td>
+                                    <td>{{ $borrow->reservation_status }}</td>
+                                    <td>
+                                        <a class="btn-sm btn-success" href="#" onclick="confirmation(event, 'Are you sure you want to approve this reservation?', '{{ url('approve_reservation', $borrow->id) }}')" title="Approve Extension">
+                                            <i class="fas fa-thumbs-up"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="btn-sm btn-warning" href="#" onclick="confirmation(event, 'Are you sure you want to reject this reservation?', '{{ url('reject_reservation', $borrow->id) }}')" title="Reject Extension">
+                                            <i class="fas fa-thumbs-down"></i>
+                                        </a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($reservations as $reservation)
-                                    <tr>
-                                        <td>{{ $reservation->book->book_title }}</td>
-                                        <td>{{ $reservation->user->name }}</td>
-                                        <td>{{ $reservation->user->age }}</td>
-                                        <td>{{ $reservation->book->pg_rating }}</td>
-                                        <td>{{ $reservation->status }}</td>
-                                        <td>
-                                            <a href="{{ url('accept_reservation', $reservation->id) }}" class="btn btn-success">Accept</a>
-                                            <a href="{{ url('reject_reservation', $reservation->id) }}" class="btn btn-danger">Reject</a>
-                                        </td>
-                                    </tr>
                                 @endforeach
-                            </tbody>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -151,8 +165,8 @@
         var tr = table.getElementsByTagName('tr');
 
         for (var i = 0; i < tr.length; i++) {
-          var tdDueDate = tr[i].getElementsByTagName('td')[11];
-          var tdStatus = tr[i].getElementsByTagName('td')[8];
+          var tdDueDate = tr[i].getElementsByTagName('td')[4];
+          var tdStatus = tr[i].getElementsByTagName('td')[5];
           var showRow = true;
 
           if (tdDueDate) {

@@ -71,15 +71,34 @@ class HomeController extends Controller
     public function cancel_request($id)
     {
         $data = Borrow::find($id);
+        $book = $data->books;
+        if ($book) {
+            // Increase the book quantity
+            $book->quantity += 1;
+            $book->save();
+        }
         $data -> delete();
         return redirect() -> back() -> with('message','Request cancelled successfully');
     }
+
     public function request_extension($id)
     {
        $borrow = Borrow::find($id);
        $borrow->extension_status = 'pending';
        $borrow->save();
        return redirect()->back()->with('message', 'Extension request sent to Admin');
+    }
+
+    public function request_reservation($id)
+    {
+       $user_id = Auth::user()->id;
+       $request = new Borrow;
+       $request -> books_id = $id;
+       $request -> users_id = $user_id;
+       $request -> status = 'Pending';
+       $request->reservation_status = 'pending';
+       $request->save();
+       return redirect()->back()->with('message', 'Reservation request sent to Admin');
     }
 
 

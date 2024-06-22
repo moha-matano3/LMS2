@@ -199,7 +199,7 @@ class AdminController extends Controller
 
     public function borrow_request()
     {
-        $data = Borrow::all();
+        $data = Borrow::where('status', '!=', 'Pending')->get();
         return view('admin.layouts.borrow_requests', compact('data'));
     }
 
@@ -211,7 +211,7 @@ class AdminController extends Controller
 
     public function reservation_request()
     {
-        $data = Borrow::all();
+        $data = Borrow::where('reservation_status', 'pending')->orderBy('created_at', 'desc')->get();
         return view('admin.layouts.reservation_requests', compact('data'));
     }
 
@@ -291,8 +291,38 @@ class AdminController extends Controller
        return redirect()->back()->with('message', 'Extension rejected');
     }
 
+    public function approve_reservation($id)
+    {
+       $borrow = Borrow::find($id);
+       $book = $borrow->books;
+       if ($book->quantity > 0) {
 
-    public function reserveBook($id)
+        // Update book quantity
+        $book->quantity -= 1;
+
+        // Update reservation status
+        $borrow->reservation_status = 'Accepted';
+        $borrow->status = 'Approved';
+        $borrow->save();
+
+        return redirect()->back()->with('message', 'Reservation accepted.');
+    } else {
+        return redirect()->back()->with('message', 'Book quantity is insufficient.');
+    }
+
+    }
+
+    public function reject_reservation($id)
+    {
+       $borrow = Borrow::find($id);
+       $borrow->status = 'Rejected';
+       $borrow->reservation_status = 'Rejected';
+       $borrow->save();
+       return redirect()->back()->with('message', 'Reservation rejected');
+    }
+
+
+  /*  public function reserveBook($id)
     {
         $user = auth()->user();
         $book = Books::find($id);
@@ -317,10 +347,10 @@ class AdminController extends Controller
     {
         // Find the reservation by id
         $reservation = Reservation::findOrFail($id);
-        
+
         // Check if the book exists and has quantity > 0
         $book = Books::findOrFail($reservation->book_id);
-        
+
         if ($book->quantity > 0) {
             // Create a borrow request
             Borrow::create([
@@ -328,15 +358,15 @@ class AdminController extends Controller
                 'user_id' => $reservation->user_id,
                 'status' => 'Approved'
             ]);
-            
+
             // Update book quantity
             $book->quantity -= 1;
             $book->save();
-            
+
             // Update reservation status
             $reservation->status = 'Accepted';
             $reservation->save();
-            
+
             return redirect()->back()->with('message', 'Reservation accepted.');
         } else {
             return redirect()->back()->with('message', 'Book quantity is insufficient.');
@@ -350,5 +380,5 @@ class AdminController extends Controller
         $reservation->save();
 
         return redirect()->back()->with('message', 'Reservation rejected.');
-    }
+    } */
 }
