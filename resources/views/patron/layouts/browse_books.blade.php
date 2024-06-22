@@ -115,6 +115,9 @@
             opacity:1;
             transform:translateY(0px);
             }
+            .tile.unavailable {
+            opacity: 0.3;
+            }
             @media (max-width: 700px) {
                 .wrap {
                     flex-direction: grid;
@@ -158,13 +161,17 @@
             </div>
             <div class="wrap">
                 @foreach ($data as $data)
-                    <div class="tile"> 
+                  <div class="tile @if($data->quantity == 0) unavailable @endif"> 
                         <img src="book/{{$data->book_img}}">
                         <div class="text">
                             <h1>{{$data->book_title}}</h1>
                             <h3 class="animate-text">{{$data->author_name}}</h3>
                             <p class="animate-text">{{$data->desc}}</p>
-                            <a href="{{url('borrow_books',$data->id)}}" class=" btn-sm button animate-text">Request</a>
+                            @if($data->quantity > 0)
+                              <a href="{{ url('borrow_books', $data->id) }}" class="btn-sm button animate-text">Request</a>
+                              @else
+                              <a href="{{ url('reserve_book', $data->id) }}" class="btn-sm button animate-text">Books unavailable, click to reserve</a>
+                            @endif
                         </div>
                     </div>
                 @endforeach
