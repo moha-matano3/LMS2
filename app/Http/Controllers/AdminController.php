@@ -293,22 +293,23 @@ class AdminController extends Controller
 
     public function approve_reservation($id)
     {
-       $borrow = Borrow::find($id);
-       $book = $borrow->books;
-       if ($book->quantity > 0) {
+        $borrow = Borrow::find($id);
+        $book = $borrow->books;
+        if ($book->quantity > 0) {
 
-        // Update book quantity
-        $book->quantity -= 1;
+            // Update book quantity
+            $book->quantity -= 1;
+            $book->save();
 
-        // Update reservation status
-        $borrow->reservation_status = 'Accepted';
-        $borrow->status = 'Approved';
-        $borrow->save();
+            // Update reservation status
+            $borrow->reservation_status = 'Accepted';
+            $borrow->status = 'Approved';
+            $borrow->save();
 
-        return redirect()->back()->with('message', 'Reservation accepted.');
-    } else {
-        return redirect()->back()->with('message', 'Book quantity is insufficient.');
-    }
+            return redirect()->back()->with('message', 'Reservation accepted.');
+        } else {
+            return redirect()->back()->with('message', 'Book quantity is insufficient.');
+        }
 
     }
 
