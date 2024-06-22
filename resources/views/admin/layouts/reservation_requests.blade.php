@@ -103,86 +103,31 @@
 
                         <div class="table-responsive">
                             <table class="table" id="borrowTable">
-                                <thead>
-                                  <tr>
-                                      <th>Member's Name</th>
-                                      <th>Email</th>
-                                      <th>Phone</th>
-                                      <th>Patron's Age</th>
-                                      <th>Book Title</th>
-                                      <th>Book Image</th>
-                                      <th>PG Rating</th>
-                                      <th>Quantity</th>
-                                      <th>Reservation Status</th>
-                                      <th>Request date</th>
-                                      <th>Review date</th>
-                                      <th>Due date</th>
-                                      <th>Actions</th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                @foreach ($data as $borrow)
+                            <thead>
                                 <tr>
-                                    <td>{{ $borrow->user->name ?? '' }}</td>
-                                    <td>{{ $borrow->user->email ?? '' }}</td>
-                                    <td>{{ $borrow->user->phone ?? '' }}</td>
-                                    <td>{{ $borrow->user->age ?? '' }}</td>
-                                    <td>{{ $borrow->books->book_title ?? '' }}</td>
-                                    <td><img class="img_book" src="book/{{ $borrow->books->book_img ?? '' }}"></td>
-                                    <td>{{ $borrow->books->pg_rating ?? '' }}</td>
-                                    <td>{{ $borrow->books->quantity ?? '' }}</td>
-                                    <td>{{ $borrow->status ?? '' }}</td>
-                                    <td>{{ $borrow->created_at ?? '' }}</td>
-                                    <td>{{ $borrow->updated_at ?? '' }}</td>
-                                    <td>{{ $borrow->due_date ?? '' }}</td>
-                                    <td>
-                                        @if($borrow->status == 'Approved' || $borrow->status == 'Borrowed' || $borrow->status == 'Rejected' || $borrow->status == 'Returned')
-                                            <a class="btn-sm btn-primary disabled" href="#" title="Approve" disabled>
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        @else
-                                            <a class="btn-sm btn-primary" href="#" onclick="confirmation(event, 'Are you sure you want to approve this book?', '{{ url('approve_book', $borrow->id) }}')" title="Approve">
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        @endif
-                                    </td>
-
-                                    <td>
-                                        @if($borrow->status == 'Borrowed' || $borrow->status == 'Rejected' || $borrow->status == 'Returned' || $borrow->status == 'Applied')
-                                            <a class="btn-sm btn-success disabled" href="#" title="Borrow" disabled>
-                                                <i class="fas fa-thumbs-up"></i>
-                                            </a>
-                                        @else
-                                            <a class="btn-sm btn-success" href="#" onclick="confirmation(event, 'Are you sure you want to borrow this book?', '{{ url('borrow_book', $borrow->id) }}')" title="Borrow">
-                                                <i class="fas fa-thumbs-up"></i>
-                                            </a>
-                                        @endif
-                                    </td>
-
-                                    <td>
-                                        @if($borrow->status == 'Rejected' || $borrow->status == 'Borrowed' || $borrow->status == 'Returned')
-                                            <a class="btn-sm btn-warning disabled" href="#" title="Deny" disabled>
-                                                <i class="fas fa-thumbs-down"></i>
-                                            </a>
-                                        @else
-                                            <a class="btn-sm btn-warning" href="#" onclick="confirmation(event, 'Are you sure you want to deny this book?', '{{ url('deny_book', $borrow->id) }}')" title="Deny">
-                                                <i class="fas fa-thumbs-down"></i>
-                                            </a>
-                                        @endif
-                                    </td>
-
-
-
-
-
-
+                                    <th>Book Title</th>
+                                    <th>Member's Name</th>
+                                    <th>Member's Age </th>
+                                    <th> PG Rating </th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($reservations as $reservation)
+                                    <tr>
+                                        <td>{{ $reservation->book->book_title }}</td>
+                                        <td>{{ $reservation->user->name }}</td>
+                                        <td>{{ $reservation->user->age }}</td>
+                                        <td>{{ $reservation->book->pg_rating }}</td>
+                                        <td>{{ $reservation->status }}</td>
+                                        <td>
+                                            <a href="{{ url('accept_reservation', $reservation->id) }}" class="btn btn-success">Accept</a>
+                                            <a href="{{ url('reject_reservation', $reservation->id) }}" class="btn btn-danger">Reject</a>
+                                        </td>
+                                    </tr>
                                 @endforeach
-                                </tbody>
+                            </tbody>
                             </table>
                         </div>
                     </div>

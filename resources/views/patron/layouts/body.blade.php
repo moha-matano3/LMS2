@@ -223,9 +223,7 @@
             <li class="item" style="background-image: url('{{ asset('book/' . $book->book_img) }}')">
                 <div class="content">
                     <h2 class="title">{{ $book->book_title }}</h2>
-                    <p class="description">
-                        {{ Str::limit($book->desc, 100) }}
-                    </p>
+                    <p class="description">{{$book->desc}}</p>
                 </div>
             </li>
         @endforeach
