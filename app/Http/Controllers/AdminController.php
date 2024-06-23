@@ -220,7 +220,7 @@ class AdminController extends Controller
         }
         else {
             $data -> status = 'Borrowed';
-            $data -> due_date = Carbon::now()->addWeek(1);
+            $data -> due_date = Carbon::now()->addMinutes(3);
             $data -> save();
             $book_id = $data->books_id;
             $book = Books::find($book_id);

@@ -61,4 +61,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    //[gribz]added this for the sake of reminderclass
+
+    protected $with = ['borrows']; // Optional: eager load borrows relationship
+
+    public function borrows()
+    {
+        return $this->hasMany(Borrow::class, 'users_id');
+    }
+
+    //
 }

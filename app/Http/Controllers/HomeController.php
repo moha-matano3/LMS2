@@ -32,7 +32,9 @@ class HomeController extends Controller
                               ->first();
 
         if ($existing_borrow) {
-            return redirect()->back()->with('message', 'You have already requested or borrowed this book.');
+            //  return redirect()->back()->with('message', 'You have already requested or borrowed this book.');
+             notify()->error('You have already requested or borrowed this book.');
+             return redirect()->back();
         }
         else {
             $data = Books::find($id);
@@ -47,7 +49,9 @@ class HomeController extends Controller
                     $borrow -> status = 'Applied';
                     $borrow -> due_date;
                     $borrow -> save();
-                    return redirect() -> back() -> with('message','Request sent to Admin');
+                    notify()->success('Request sent to Admin');
+                    return redirect() -> back(); 
+                    
                 }
                 else {
                     return redirect('/login');
