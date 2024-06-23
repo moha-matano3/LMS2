@@ -93,7 +93,9 @@
                                 <input type="date" id="dueDate" name="dueDate" placeholder="Due Date">
                                 <select id="status" name="status">
                                     <option value="">Select Status</option>
-                                    <option value="Accepted">Accepted</option>
+
+                                    <option value="pending">Pending</option>
+
                                     <option value="Rejected">Rejected</option>
 
                                 </select>
@@ -105,81 +107,38 @@
                             <table class="table" id="borrowTable">
                                 <thead>
                                   <tr>
-                                      <th>Patron's Name</th>
-                                      <th>Email</th>
-                                      <th>Phone</th>
-                                      <th>Patron's Age</th>
-                                      <th>Book Title</th>
-                                      <th>Book Image</th>
-                                      <th>PG Rating</th>
-                                      <th>Quantity</th>
-                                      <th>Reservation Status</th>
-                                      <th>Request date</th>
-                                      <th>Review date</th>
-                                      <th>Due date</th>
-                                      <th>Actions</th>
+                                    <th>Member's Name</th>
+                                    <th>Book Title</th>
+                                    <th>Book Status</th>
+                                    <th>Request Date</th>
+                                    <th>Due Date</th>
+                                    <th>Reservation Status</th>
+                                    <th>Actions</th>
+
                                       <th></th>
                                       <th></th>
-                                      <th></th>
-                                      <th></th>
+
                                   </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($data as $borrow)
                                 <tr>
-                                    <td>{{ $borrow->user->name ?? '' }}</td>
-                                    <td>{{ $borrow->user->email ?? '' }}</td>
-                                    <td>{{ $borrow->user->phone ?? '' }}</td>
-                                    <td>{{ $borrow->user->age ?? '' }}</td>
-                                    <td>{{ $borrow->books->book_title ?? '' }}</td>
-                                    <td><img class="img_book" src="book/{{ $borrow->books->book_img ?? '' }}"></td>
-                                    <td>{{ $borrow->books->pg_rating ?? '' }}</td>
-                                    <td>{{ $borrow->books->quantity ?? '' }}</td>
-                                    <td>{{ $borrow->status ?? '' }}</td>
-                                    <td>{{ $borrow->created_at ?? '' }}</td>
-                                    <td>{{ $borrow->updated_at ?? '' }}</td>
-                                    <td>{{ $borrow->due_date ?? '' }}</td>
+                                    <td>{{ $borrow->user->name }}</td>
+                                    <td>{{ $borrow->books->book_title }}</td>
+                                    <td>{{ $borrow->status }}</td>
+                                    <td>{{ $borrow->created_at }}</td>
+                                    <td>{{ $borrow->due_date }}</td>
+                                    <td>{{ $borrow->reservation_status }}</td>
                                     <td>
-                                        @if($borrow->status == 'Approved' || $borrow->status == 'Borrowed' || $borrow->status == 'Rejected' || $borrow->status == 'Returned')
-                                            <a class="btn-sm btn-primary disabled" href="#" title="Approve" disabled>
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        @else
-                                            <a class="btn-sm btn-primary" href="#" onclick="confirmation(event, 'Are you sure you want to approve this book?', '{{ url('approve_book', $borrow->id) }}')" title="Approve">
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        @endif
+                                        <a class="btn-sm btn-success" href="#" onclick="confirmation(event, 'Are you sure you want to approve this reservation?', '{{ url('approve_reservation', $borrow->id) }}')" title="Approve Extension">
+                                            <i class="fas fa-thumbs-up"></i>
+                                        </a>
                                     </td>
-
                                     <td>
-                                        @if($borrow->status == 'Borrowed' || $borrow->status == 'Rejected' || $borrow->status == 'Returned' || $borrow->status == 'Applied')
-                                            <a class="btn-sm btn-success disabled" href="#" title="Borrow" disabled>
-                                                <i class="fas fa-thumbs-up"></i>
-                                            </a>
-                                        @else
-                                            <a class="btn-sm btn-success" href="#" onclick="confirmation(event, 'Are you sure you want to borrow this book?', '{{ url('borrow_book', $borrow->id) }}')" title="Borrow">
-                                                <i class="fas fa-thumbs-up"></i>
-                                            </a>
-                                        @endif
+                                        <a class="btn-sm btn-warning" href="#" onclick="confirmation(event, 'Are you sure you want to reject this reservation?', '{{ url('reject_reservation', $borrow->id) }}')" title="Reject Extension">
+                                            <i class="fas fa-thumbs-down"></i>
+                                        </a>
                                     </td>
-
-                                    <td>
-                                        @if($borrow->status == 'Rejected' || $borrow->status == 'Borrowed' || $borrow->status == 'Returned')
-                                            <a class="btn-sm btn-warning disabled" href="#" title="Deny" disabled>
-                                                <i class="fas fa-thumbs-down"></i>
-                                            </a>
-                                        @else
-                                            <a class="btn-sm btn-warning" href="#" onclick="confirmation(event, 'Are you sure you want to deny this book?', '{{ url('deny_book', $borrow->id) }}')" title="Deny">
-                                                <i class="fas fa-thumbs-down"></i>
-                                            </a>
-                                        @endif
-                                    </td>
-
-
-
-
-
-
                                 </tr>
                                 @endforeach
                                 </tbody>
@@ -206,8 +165,8 @@
         var tr = table.getElementsByTagName('tr');
 
         for (var i = 0; i < tr.length; i++) {
-          var tdDueDate = tr[i].getElementsByTagName('td')[11];
-          var tdStatus = tr[i].getElementsByTagName('td')[8];
+          var tdDueDate = tr[i].getElementsByTagName('td')[4];
+          var tdStatus = tr[i].getElementsByTagName('td')[5];
           var showRow = true;
 
           if (tdDueDate) {

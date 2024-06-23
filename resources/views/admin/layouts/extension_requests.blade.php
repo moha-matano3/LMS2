@@ -107,7 +107,7 @@
                             <table class="table" id="borrowTable">
                                 <thead>
                                   <tr>
-                                    <th>Patron's Name</th>
+                                    <th>Member's Name</th>
                                     <th>Book Title</th>
                                     <th>Book Status</th>
                                     <th>Request Date</th>
@@ -129,8 +129,6 @@
                                     <td>{{ $borrow->created_at }}</td>
                                     <td>{{ $borrow->due_date }}</td>
                                     <td>{{ $borrow->extension_status }}</td>
-
-
                                     <td>
                                         <a class="btn-sm btn-success" href="#" onclick="confirmation(event, 'Are you sure you want to approve this extension?', '{{ url('approve_extension', $borrow->id) }}')" title="Approve Extension">
                                             <i class="fas fa-thumbs-up"></i>
@@ -141,8 +139,6 @@
                                             <i class="fas fa-thumbs-down"></i>
                                         </a>
                                     </td>
-
-
                                 </tr>
                                 @endforeach
                                 </tbody>

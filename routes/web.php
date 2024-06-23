@@ -62,11 +62,22 @@ route::get('/extension_request',[AdminController::class,'extension_request']);
 
 route::get('/reservation_request',[AdminController::class,'reservation_request']);
 
+/*route::get('/reservation_request',[AdminController::class,'manageReservations']);
+
+Route::get('reserve_book/{id}', [AdminController::class, 'reserveBook'])->name('reserve_book');
+Route::get('accept_reservation/{id}', [AdminController::class, 'acceptReservation'])->name('accept_reservation');
+Route::get('reject_reservation/{id}', [AdminController::class, 'rejectReservation'])->name('reject_reservation'); */
+
+
 route::get('/approve_book/{id}',[AdminController::class,'approve_book']);
 
 route::get('/approve_extension/{id}',[AdminController::class,'approve_extension']);
 
 route::get('/reject_extension/{id}',[AdminController::class,'reject_extension']);
+
+route::get('/approve_reservation/{id}',[AdminController::class,'approve_reservation']);
+
+route::get('/reject_reservation/{id}',[AdminController::class,'reject_reservation']);
 
 route::get('/borrow_book/{id}',[AdminController::class,'borrow_book']);
 
@@ -77,6 +88,8 @@ route::get('/return_book/{id}',[AdminController::class,'return_book']);
 route::get('/patron_requests',[HomeController::class,'patron_requests']);
 
 Route::get('request_extension/{id}', [HomeController::class, 'request_extension'])->name('request_extension');
+
+Route::get('request_reservation/{id}', [HomeController::class, 'request_reservation'])->name('request_reservation');
 
 route::get('/cancel_request/{id}',[HomeController::class,'cancel_request']);
 

@@ -15,6 +15,7 @@ class Borrow extends Model
         'status',
         'due_date',
         'extension_status',
+        'reservation_status',
     ];
 
     public function books()
