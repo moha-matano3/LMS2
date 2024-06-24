@@ -5,7 +5,7 @@
             <form id="searchForm" action="{{url('search_book')}}" method="get">
               @csrf
               <div class="form-group">
-                <input type="search" name="search" placeholder="Search by Book title or Author">
+                <input type="search" name="search" placeholder="Search by Book title, Author or Publisher">
                 <input type="submit" class="btn" value="Search">
               </div>
             </form>

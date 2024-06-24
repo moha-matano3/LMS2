@@ -33,10 +33,15 @@
         color: #fff;
         background-color: #ff0000;
       }
+      .notify-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999; /* Ensure it's above other elements */}
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+            @notifyCss
   </head>
 
   <body>
@@ -54,6 +59,9 @@
       <div class="page-content">
         <div class="page-header">
           <div class="container-fluid">
+          <div class="notify-container">
+              <x-notify::notify />
+            </div>
             <div class="cat_table">
 
             <div>
@@ -152,6 +160,6 @@
       });
     </script>
 
-
+@notifyJs
   </body>
 </html>
