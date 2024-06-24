@@ -188,7 +188,18 @@
                                             </a>
                                         @endif
                                     </td>
-
+    <!-- new button added  -->
+                           <td>
+                                @if($borrow->status == 'Borrowed' && $borrow->due_date <= now()->addDay())
+                                    <a class="btn-sm btn-info" href="{{ route('send.reminder', $borrow->user->id) }}" title="Send Reminder">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                @else
+                                    <a class="btn-sm btn-info disabled" href="#" title="Send Reminder" disabled>
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                @endif
+                            </td>
 
 
 

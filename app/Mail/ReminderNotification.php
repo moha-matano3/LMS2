@@ -49,7 +49,6 @@ class ReminderNotification extends Mailable
     public function build()
     {
         return $this->from('matanomohamed3@gmail.com')
-                    // ->to('gribzbadi@gmail.com','christabelmuhanda93@gmail.com','matanomohamed3@students.uonbi.ac.ke')
                     ->to($this->user->email)
                     ->subject('Dear member your time is almost up, please endeavour to return')
                     ->view('emails.reminder_notification')

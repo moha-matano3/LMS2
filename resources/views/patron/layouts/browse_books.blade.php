@@ -16,8 +16,8 @@
             max-width: 1200px;
         }
         .tile {
-            width: 300px;
-            height: 420px;
+            width: 200px;
+            height: 320px;
             margin: 10px;
             display: inline-block;
             background-size: cover;
@@ -84,6 +84,11 @@
             opacity: 0;
             transition: all 0.6s ease-in-out;
         }
+        .button.disabled {
+            background-color: #ccc; /* Light gray background */
+            color: #999; /* Dark gray text */
+            opacity: 0.6; /* Reduced opacity */
+        }
         .button:hover {
             color: #000;
             text-decoration: none;
@@ -118,18 +123,28 @@
                     width: auto;
                 }
             }
+            .tile.disabled {
+                    opacity: 0.6; /* Reduced opacity */
+                    pointer-events: none; /* Disable pointer events */
+            }
+   
+            .notify-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999; /* Ensure it's above other elements */
+        }
         </style>
+          @notifyCss   
   </head>
 
   <body>
 
-    <header class="header">   
+    <header class="header">  
       @include('patron.layouts.header')
     </header>
 
-    <div class="notify-container">
-        <x-notify::notify />
-    </div>
+   
     
     <div class="d-flex align-items-stretch">
         <!-- Sidebar Navigation-->
@@ -140,6 +155,9 @@
         <div class="page-header">
           <div class="container-fluid">
             <div>
+            <div class="notify-container">
+            <x-notify::notify />
+        </div> 
               @if (session()->has('message'))
                       <div class="alert alert-success">
                       {{session()->get('message')}}
@@ -147,6 +165,7 @@
                   </div>
               @endif
             </div>
+            
             <!-- Categories dropdown    -->
             <div class="list-inline-item dropdown">
               <a id="languages" rel="nofollow" data-filter="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><span class="d-none d-sm-inline-block">All Category</span></a>
@@ -158,13 +177,17 @@
             </div>
             <div class="wrap">
                 @foreach ($data as $data)
-                    <div class="tile"> 
+                <div class="tile {{ $data->quantity < 1 ? 'disabled' : '' }}"> 
                         <img src="book/{{$data->book_img}}">
                         <div class="text">
                             <h1>{{$data->book_title}}</h1>
                             <h3 class="animate-text">{{$data->author_name}}</h3>
                             <p class="animate-text">{{$data->desc}}</p>
-                            <a href="{{url('borrow_books',$data->id)}}" class=" btn-sm button animate-text">Request</a>
+                            @if ($data->quantity >= 1)
+                                    <a href="{{ url('borrow_books', $data->id) }}" class="btn-sm button animate-text">Request</a>
+                                @else
+                                    <a href="#" class="btn-sm button animate-text disabled" style="pointer-events: none;">Book Unavailable</a>
+                                @endif
                         </div>
                     </div>
                 @endforeach

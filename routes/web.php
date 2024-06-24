@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ReminderNotification;
 
+use App\Http\Controllers\ReminderController;
 
 
 route::get('/',[HomeController::class,'index']);
@@ -104,3 +105,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 });
+
+
+// new route im adding
+Route::get('/send-reminder/{id}', [ReminderController::class, 'sendReminder'])->name('send.reminder');
