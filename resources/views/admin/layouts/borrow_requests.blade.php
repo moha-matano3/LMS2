@@ -54,7 +54,9 @@
         }
 
       }
-
+      .past-due {
+            color: red;
+        }
       .notify-container {
             position: fixed;
             top: 20px;
@@ -144,7 +146,9 @@
                                     <td>{{ $borrow->status ?? '' }}</td>
                                     <td>{{ $borrow->created_at ?? '' }}</td>
                                     <td>{{ $borrow->updated_at ?? '' }}</td>
-                                    <td>{{ $borrow->due_date ?? '' }}</td>
+                                    <td class="{{ $borrow->isPastDue() ? 'past-due' : '' }}">
+                                        {{ $borrow->due_date }}
+                                    </td>
                                     <td>
                                         @if($borrow->status == 'Approved' || $borrow->status == 'Borrowed' || $borrow->status == 'Rejected' || $borrow->status == 'Returned')
                                             <a class="btn-sm btn-primary disabled" href="#" title="Approve" disabled>

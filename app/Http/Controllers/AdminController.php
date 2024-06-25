@@ -41,7 +41,11 @@ class AdminController extends Controller
                 $data=Books::all();
                 $latestBooks = Books::orderBy('created_at', 'desc')->take(3)->get();
                 return view('patron.index',compact('data','latestBooks'));
-            }else {
+            }elseif ($user_type == 'super') {
+                $user = User::all();
+                return view('super.index', compact('user'));
+            }
+            else {
                 return redirect()->back();
             }
         }
@@ -244,7 +248,7 @@ class AdminController extends Controller
         }
         else {
             $data -> status = 'Borrowed';
-            $data -> due_date = Carbon::now()->addWeek(1);
+            $data -> due_date = Carbon::now()->addMinutes(1);
             $data -> save();
             notify()->success('Requested Book has been borrowed');
             return redirect()->back();
@@ -335,5 +339,18 @@ class AdminController extends Controller
        $borrow->save();
        notify()->warning('Reservation rejected');
        return redirect()->back();
+    }
+
+    public function updateRole(Request $request, $id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $user->usertype = $request->usertype;
+            $user->save();
+            notify()->success('User type has been updated successfully');
+        } else {
+            notify()->error('User not found');
+        }
+        return redirect('/home');
     }
 }
