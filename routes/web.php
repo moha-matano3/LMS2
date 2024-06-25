@@ -95,3 +95,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     })->name('dashboard');
 });
 Route::get('/about', function () {return view('about');})->name('about');
+
+    
+Route::post('/updateRole/{id}', [AdminController::class, 'updateRole']);

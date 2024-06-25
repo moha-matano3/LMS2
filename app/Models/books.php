@@ -33,4 +33,9 @@ class books extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+
+    public function borrows()
+{
+    return $this->hasMany(Borrow::class);
+}
 }

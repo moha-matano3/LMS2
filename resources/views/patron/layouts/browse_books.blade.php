@@ -18,8 +18,8 @@
             }
             .tile
             {
-            width:300px;
-            height:420px;
+            width:280px;
+            height:400px;
             margin:10px;
             display:inline-block;
             background-size:cover;
@@ -124,7 +124,14 @@
                     width: auto;
                 }
             }
+            .notify-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999; /* Ensure it's above other elements */
+          }
         </style>
+        @notifyCss
   </head>
 
   <body>
@@ -132,6 +139,8 @@
     <header class="header">
       @include('patron.layouts.header')
     </header>
+
+    
 
     <div class="d-flex align-items-stretch">
 
@@ -142,13 +151,8 @@
       <div class="page-content">
         <div class="page-header">
           <div class="container-fluid">
-            <div>
-              @if (session()->has('message'))
-                      <div class="alert alert-success">
-                      {{session()->get('message')}}
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                  </div>
-              @endif
+            <div class="notify-container">
+              <x-notify::notify />
             </div>
             <!-- Categories dropdown    -->
             <div class="list-inline-item dropdown">
@@ -166,6 +170,7 @@
                         <div class="text">
                             <h1>{{$data->book_title}}</h1>
                             <h3 class="animate-text">{{$data->author_name}}</h3>
+                            <h3 class="animate-text">{{$data->publisher_name}}</h3>
                             <p class="animate-text">{{$data->desc}}</p>
                             @if($data->quantity > 0)
                               <a href="{{ url('borrow_books', $data->id) }}" class="btn-sm button animate-text">Request</a>
@@ -190,6 +195,7 @@
     </div>
 
     @include('patron.layouts.script')
-
+    
+    @notifyJs
   </body>
 </html>

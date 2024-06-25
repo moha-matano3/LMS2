@@ -21,7 +21,14 @@
             display: inline-block;
             width: 200px;
         }
+        .notify-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999; /* Ensure it's above other elements */
+        }
     </style>
+    @notifyCss
   </head>
 
   <body>
@@ -38,13 +45,8 @@
                     <div class="container-fluid">
                         <div class="add_form">
 
-                            <div>
-                                @if (session()->has('message'))
-                                    <div class="alert alert-success">
-                                        {{session()->get('message')}}
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                                    </div>
-                                @endif
+                            <div class="notify-container">
+                               <x-notify::notify />
                             </div>
 
                             <h1 id="head_title"> Add a Book <h1><br>
@@ -59,31 +61,31 @@
                                 </div>
                                 <div>
                                     <label> Book Description: </label>
-                                    <textarea style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="desc" placeholder="Description of book (20 words Max.)"required></textarea><br>
+                                    <textarea style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="desc" placeholder="Description of book (20 words Max.)"required></textarea><br><br>
                                 </div>
                                 <div>
                                     <label> Book Author: </label>
-                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="author_name" required> <br>
+                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="author_name" required> <br><br>
                                 </div>
                                 <div>
                                     <label> Price: </label>
-                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="number" name="price" required> <br>
+                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="number" name="price" required> <br><br>
                                 </div>
                                 <div>
                                     <label> Quantity: </label>
-                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="number" name="quantity" required> <br>
+                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="number" name="quantity" required> <br><br>
                                 </div>
                                 <div>
                                     <label> Shelf Placement: </label>
-                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="shelf_place" required> <br>
+                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="shelf_place" required> <br><br>
                                 </div>
                                 <div>
                                     <label> Publisher Name: </label>
-                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="publisher_name" value="{{ old('publisher_name') }}"><br>
+                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="publisher_name" value="{{ old('publisher_name') }}"><br><br>
                                 </div>
                                 <div>
                                     <label> Year: </label>
-                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="number" name="year" value="{{ old('year') }}"><br>
+                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="number" name="year" value="{{ old('year') }}"><br><br>
                                 </div>
 
                                 <div>
@@ -106,11 +108,11 @@
                                 </div>
                                 <div>
                                     <label> Book Image: </label>
-                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="file" name="book_img" required> <br>
+                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="file" name="book_img" required> <br><br>
                                 </div>
                                 <div>
                                     <label> Author Image: </label>
-                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="file" name="author_img" required> <br>
+                                    <input style="font-size: 15px; padding: 10px; width: 250px;" type="file" name="author_img" required> <br><br>
                                 </div>
 
                                 <input class="btn btn-primary" type="submit" value="Add">
@@ -124,6 +126,8 @@
             </div>
         </div>
         @include('admin.layouts.script')
+
+        @notifyJs
     </body>
 </html>
 

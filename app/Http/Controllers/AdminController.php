@@ -41,7 +41,11 @@ class AdminController extends Controller
                 $data=Books::all();
                 $latestBooks = Books::orderBy('created_at', 'desc')->take(3)->get();
                 return view('patron.index',compact('data','latestBooks'));
-            }else {
+            }elseif ($user_type == 'super') {
+                $user = User::all();
+                return view('super.index', compact('user'));
+            }
+            else {
                 return redirect()->back();
             }
         }
@@ -57,7 +61,8 @@ class AdminController extends Controller
         $data= new Category;
         $data->category_name = $request->category_name;
         $data->save();
-        return redirect()->back()->with('message','Category added successfully');
+        notify()->success('Category added successfully');
+        return redirect()->back();
     }
 
     public function display_category()
@@ -70,7 +75,8 @@ class AdminController extends Controller
     {
         $category = Category::find($id);
         $category->delete();
-        return redirect()->back()->with('message','category deleted successfully');
+        notify()->success('Category deleted successfully');
+        return redirect()->back();
     }
 
     public function edit_category($id)
@@ -84,7 +90,8 @@ class AdminController extends Controller
         $data= Category::find($id);
         $data->category_name = $request->category_name;
         $data->save();
-        return redirect('/display_category')->with('message','Category updated successfully');
+        notify()->success('Category updated successfully');
+        return redirect('/display_category');
     }
 
     public function add_book()
@@ -144,8 +151,8 @@ class AdminController extends Controller
         }
 
         $book->save();
-
-        return redirect()->back()->with('message', 'Book added successfully!');
+        notify()->success('Book added successfully');
+        return redirect()->back();
     }
 
     public function display_book()
@@ -158,7 +165,8 @@ class AdminController extends Controller
     {
         $book = Books::find($id);
         $book->delete();
-        return redirect()->back()->with('message','The title has been deleted successfully');
+        notify()->success('Title has been deleted successfully');
+        return redirect()->back();
     }
 
     public function edit_book($id)
@@ -177,6 +185,8 @@ class AdminController extends Controller
         $data -> price = $request -> price;
         $data -> quantity = $request -> quantity;
         $data -> shelf_place = $request -> shelf_place;
+        $data -> publisher_name = $request -> publisher_name;
+        $data -> year = $request -> year;
         $data -> categories_id = $request -> category;
         $book_img = $request -> book_img;
             if ($book_img)
@@ -193,8 +203,8 @@ class AdminController extends Controller
                 $data -> author_img = $author_image_name;
             }
         $data->save();
-
-        return redirect('/display_book')->with('message','Title has been updated successfully');
+        notify()->success('Title has been updated successfully');
+        return redirect('/display_book');
     }
 
     public function borrow_request()
@@ -225,7 +235,8 @@ class AdminController extends Controller
         $book_quantity = $book->quantity - '1';
         $book->quantity = $book_quantity;
         $book->save();
-        return redirect()->back()->with('message','Borrow Request approved');
+        notify()->success('Borrow request approved');
+        return redirect()->back();
     }
 
     public function borrow_book($id)
@@ -237,9 +248,10 @@ class AdminController extends Controller
         }
         else {
             $data -> status = 'Borrowed';
-            $data -> due_date = Carbon::now()->addWeek(1);
+            $data -> due_date = Carbon::now()->addMinutes(1);
             $data -> save();
-            return redirect()->back()->with('message','Request Book has been borrowed');
+            notify()->success('Requested Book has been borrowed');
+            return redirect()->back();
         }
     }
 
@@ -249,7 +261,8 @@ class AdminController extends Controller
         $data -> status = 'Rejected';
         $data -> due_date = null;
         $data -> save();
-        return redirect()->back()->with('message','Request rejected');
+        notify()->success('Request rejected');
+        return redirect()->back();
     }
 
     public function return_book($id)
@@ -268,7 +281,8 @@ class AdminController extends Controller
             $book_quantity = $book -> quantity + '1';
             $book->quantity = $book_quantity;
             $book->save();
-            return redirect()->back()->with('message','Book Returned');
+            notify()->success('Book Returned');
+            return redirect()->back();
         }
     }
     public function approve_extension($id)
@@ -280,7 +294,8 @@ class AdminController extends Controller
        // Add 3 days to the due_date
        $borrow->due_date = $dueDate->addDays(3);
        $borrow->save();
-       return redirect()->back()->with('message', 'Extension approved');
+       notify()->success('Extension approved');
+       return redirect()->back();
     }
 
     public function reject_extension($id)
@@ -288,28 +303,37 @@ class AdminController extends Controller
        $borrow = Borrow::find($id);
        $borrow->extension_status = 'Rejected';
        $borrow->save();
-       return redirect()->back()->with('message', 'Extension rejected');
+       notify()->success('Extension rejected');
+       return redirect()->back();
     }
 
     public function approve_reservation($id)
     {
-       $borrow = Borrow::find($id);
-       $book = $borrow->books;
-       if ($book->quantity > 0) {
+        $borrow = Borrow::find($id);
+        $book = $borrow->books;
+        if ($book->quantity > 0) {
 
+<<<<<<< HEAD
         // Update book quantity
         $book->quantity -= 1;
         $book->save();
+=======
+            // Update book quantity
+            $book->quantity -= 1;
+            $book->save();
+>>>>>>> 238d21559a13b5d3e3cf35ca82067246b077826e
 
-        // Update reservation status
-        $borrow->reservation_status = 'Accepted';
-        $borrow->status = 'Approved';
-        $borrow->save();
+            // Update reservation status
+            $borrow->reservation_status = 'Accepted';
+            $borrow->status = 'Approved';
+            $borrow->save();
 
-        return redirect()->back()->with('message', 'Reservation accepted.');
-    } else {
-        return redirect()->back()->with('message', 'Book quantity is insufficient.');
-    }
+            notify()->success('Reservation accepted');
+            return redirect()->back();
+        } else {
+            notify()->error('Book quantity is insufficient');
+            return redirect()->back();
+        }
 
     }
 
@@ -319,67 +343,20 @@ class AdminController extends Controller
        $borrow->status = 'Rejected';
        $borrow->reservation_status = 'Rejected';
        $borrow->save();
-       return redirect()->back()->with('message', 'Reservation rejected');
+       notify()->warning('Reservation rejected');
+       return redirect()->back();
     }
 
-
-  /*  public function reserveBook($id)
+    public function updateRole(Request $request, $id)
     {
-        $user = auth()->user();
-        $book = Books::find($id);
-        $reservation = Reservation::create([
-            'book_id' => $book->id,
-            'user_id' => $user->id,
-            'status' => 'Pending',
-        ]);
-
-        return redirect()->back()->with('message', 'Reservation request submitted.');
-    }
-
-
-    public function manageReservations()
-    {
-        $reservations = Reservation::with(['book', 'user'])->where('status', 'Pending')->orderBy('created_at')->get();
-        return view('admin.layouts.reservation_requests', compact('reservations'));
-    }
-
-
-    public function acceptReservation($id)
-    {
-        // Find the reservation by id
-        $reservation = Reservation::findOrFail($id);
-
-        // Check if the book exists and has quantity > 0
-        $book = Books::findOrFail($reservation->book_id);
-
-        if ($book->quantity > 0) {
-            // Create a borrow request
-            Borrow::create([
-                'book_id' => $book->id,
-                'user_id' => $reservation->user_id,
-                'status' => 'Approved'
-            ]);
-
-            // Update book quantity
-            $book->quantity -= 1;
-            $book->save();
-
-            // Update reservation status
-            $reservation->status = 'Accepted';
-            $reservation->save();
-
-            return redirect()->back()->with('message', 'Reservation accepted.');
+        $user = User::find($id);
+        if ($user) {
+            $user->usertype = $request->usertype;
+            $user->save();
+            notify()->success('User type has been updated successfully');
         } else {
-            return redirect()->back()->with('message', 'Book quantity is insufficient.');
+            notify()->error('User not found');
         }
+        return redirect('/home');
     }
-
-    public function rejectReservation($id)
-    {
-        $reservation = Reservation::find($id);
-        $reservation->status = 'Rejected';
-        $reservation->save();
-
-        return redirect()->back()->with('message', 'Reservation rejected.');
-    } */
 }
