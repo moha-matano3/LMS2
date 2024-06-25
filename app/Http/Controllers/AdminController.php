@@ -299,6 +299,7 @@ class AdminController extends Controller
 
         // Update book quantity
         $book->quantity -= 1;
+        $book->save();
 
         // Update reservation status
         $borrow->reservation_status = 'Accepted';
