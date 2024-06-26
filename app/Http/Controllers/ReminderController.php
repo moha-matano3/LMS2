@@ -17,7 +17,8 @@ class ReminderController extends Controller
 
         if ($borrow && $borrow->user && Carbon::parse($borrow->due_date)->isPast() && $borrow->status !== 'Returned') {
             Mail::to($borrow->user->email)->send(new ReminderNotification($borrow));
-            return redirect()->back()->with('message', 'Reminder notification sent successfully.');
+            notify()->success('Reminder notification sent successfully.');
+            return redirect()->back();
         }
 
         return $this->handleErrors($borrow);
@@ -26,21 +27,25 @@ class ReminderController extends Controller
     private function handleErrors($borrow)
     {
         if (!$borrow) {
-            return redirect()->back()->with('error', 'Borrow record not found.');
+            notify()->error('Borrow record not found.');
+            return redirect()->back();
         }
 
         if (!$borrow->user) {
-            return redirect()->back()->with('error', 'User associated with borrow record not found.');
+            notify()->error('User associated with borrow record not found..');
+            return redirect()->back();
         }
 
         if (!Carbon::parse($borrow->due_date)->isPast()) {
-            return redirect()->back()->with('error', 'Cannot send reminder. Due date has not yet passed.');
+            notify()->error('Cannot send reminder. Due date has not yet passed.');
+            return redirect()->back();
         }
 
         if ($borrow->status === 'Returned') {
-            return redirect()->back()->with('error', 'Cannot send reminder. Book has already been returned.');
+            notify()->error('Cannot send reminder. Book has already been returned..');
+            return redirect()->back();
         }
-
-        return redirect()->back()->with('error', 'Cannot send reminder.');
+        notify()->error('Cannot send reminder.');
+        return redirect()->back();
     }
 }
