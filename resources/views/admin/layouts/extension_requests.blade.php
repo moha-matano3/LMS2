@@ -54,7 +54,7 @@
         }
 
       }
-      .notify-container 
+      .notify-container
         {
             position: fixed;
             top: 20px;
@@ -133,14 +133,26 @@
                                     <td>{{ $borrow->due_date }}</td>
                                     <td>{{ $borrow->extension_status }}</td>
                                     <td>
+                                        @if($borrow->extension_status == 'Rejected' || $borrow->extension_status == 'Accepted')
+                                        <a class="btn-sm btn-success disabled" href="#" title="Approve Extension" disabled>
+                                            <i class="fas fa-thumbs-up"></i>
+                                        </a>
+                                        @else
                                         <a class="btn-sm btn-success" href="#" onclick="confirmation(event, 'Are you sure you want to approve this extension?', '{{ url('approve_extension', $borrow->id) }}')" title="Approve Extension">
                                             <i class="fas fa-thumbs-up"></i>
                                         </a>
+                                        @endif
                                     </td>
                                     <td>
+                                        @if($borrow->extension_status == 'Rejected' || $borrow->extension_status == 'Accepted')
+                                        <a class="btn-sm btn-warning disabled" href="#" title="Reject Extension" disabled>
+                                            <i class="fas fa-thumbs-down"></i>
+                                        </a>
+                                        @else
                                         <a class="btn-sm btn-warning" href="#" onclick="confirmation(event, 'Are you sure you want to reject this extension?', '{{ url('reject_extension', $borrow->id) }}')" title="Reject Extension">
                                             <i class="fas fa-thumbs-down"></i>
                                         </a>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

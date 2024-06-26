@@ -95,18 +95,22 @@
                         <td>{{$data->due_date}}</td>
                         <td><span class="timer" data-due="{{$data->due_date}}"></span></td>
                         <td>
-                            @if ($data->extension_status == 'none' && $data->status == 'Borrowed')
-                                <a href="{{ url('request_extension', $data->id) }}" class="btn btn-warning">Request Extension</a>
-                            @elseif ($data->extension_status == 'pending')
-                                <p>Extension Pending</p>
-                            @elseif ($data->extension_status == 'Accepted')
-                                <p>Extension Accepted</p>
-                            @elseif ($data->extension_status == 'Rejected')
-                                <p>Extension Rejected</p>
-                            @else
-                                <p>Cannot request extension</p>
-                            @endif
-                        </td>
+                          @php
+                            $currentDate = \Carbon\Carbon::now();
+                            $dueDate = \Carbon\Carbon::parse($data->due_date);
+                          @endphp
+                          @if ($data->extension_status == 'none' && $data->status == 'Borrowed' && $currentDate->lt($dueDate))
+                            <a href="{{ url('request_extension', $data->id) }}" class="btn btn-warning">Request Extension</a>
+                          @elseif ($data->extension_status == 'pending')
+                            <p>Extension Pending</p>
+                          @elseif ($data->extension_status == 'Accepted')
+                            <p>Extension Accepted</p>
+                          @elseif ($data->extension_status == 'Rejected')
+                            <p>Extension Rejected</p>
+                          @else
+                            <p>Cannot request extension</p>
+                          @endif
+                      </td>
 
                         <td>
                           @if ($data -> status == 'Applied' || $data -> status == 'Approved')

@@ -248,7 +248,7 @@ class AdminController extends Controller
         }
         else {
             $data -> status = 'Borrowed';
-            $data -> due_date = Carbon::now()->addHours(2);
+            $data -> due_date = Carbon::now()->addMinutes(3);
             $data -> save();
             notify()->success('Requested Book has been borrowed');
             return redirect()->back();
@@ -292,7 +292,7 @@ class AdminController extends Controller
        $dueDate = Carbon::parse($borrow->due_date);
 
        // Add 3 days to the due_date
-       $borrow->due_date = $dueDate->addDays(3);
+       $borrow->due_date = $dueDate->addDays(2);
        $borrow->save();
        notify()->success('Extension approved');
        return redirect()->back();
@@ -313,9 +313,9 @@ class AdminController extends Controller
         $book = $borrow->books;
         if ($book->quantity > 0) {
 
-            // Update book quantity
-            $book->quantity -= 1;
-            $book->save();
+        // Update book quantity
+        $book->quantity -= 1;
+        $book->save();
 
             // Update reservation status
             $borrow->reservation_status = 'Accepted';
@@ -343,7 +343,9 @@ class AdminController extends Controller
 
     public function updateRole(Request $request, $id)
     {
+
         $user = User::find($id);
+
         if ($user) {
             $user->usertype = $request->usertype;
             $user->save();
