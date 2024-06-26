@@ -4,57 +4,56 @@
     @include('admin.layouts.head')
 
     <style>
-      .cat_table {
-        text-align: center;
-        margin: auto;
-        width: 100%;
-      }
-      th {
-        background: #b5406c;
-        color: white;
-      }
-      .img_book {
-        width: 80px;
-        height: auto;
-      }
-      table {
-        width: 100%;
-      }
-      .filter-form {
-        margin-bottom: 20px;
-        text-align: center;
-      }
-      .filter-form input,
-      .filter-form select {
-        margin: 5px;
-        padding: 5px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-      }
-      .filter-form button {
-        padding: 5px 10px;
-        border-radius: 5px;
-        border: none;
-        background-color: #b5406c;
-        color: #fff;
-        cursor: pointer;
-      }
-      .btn-sm:disabled {
-        pointer-events: none;
-        opacity: 0.5;
-        color: #aaa; /* Optional: change the color to a lighter grey */
-      }
-      @media (max-width: 768px) {
-
-        .filter-form input,
-        .filter-form select,
-        .filter-form button {
-          width: 100%;
-          margin: 5px 0;
+        .cat_table {
+            text-align: center;
+            margin: auto;
+            width: 100%;
         }
+        th {
+            background: #b5406c;
+            color: white;
+        }
+        .img_book {
+            width: 80px;
+            height: auto;
+        }
+        table {
+            width: 100%;
+        }
+        .filter-form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .filter-form input,
+        .filter-form select {
+            margin: 5px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .filter-form button {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #b5406c;
+            color: #fff;
+            cursor: pointer;
+        }
+        .btn-sm:disabled {
+            pointer-events: none;
+            opacity: 0.5;
+            color: #aaa; /* Optional: change the color to a lighter grey */
+        }
+        @media (max-width: 768px) {
 
-      }
+            .filter-form input,
+            .filter-form select,
+            .filter-form button {
+                width: 100%;
+                margin: 5px 0;
+            }
 
+        }
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -183,26 +182,23 @@
                                                 <i class="fas fa-undo"></i>
                                             </a>
                                         @else
-                                            <a class="btn-sm btn-secondary" href="#" onclick="confirmation(event, 'Book retruned by member?', '{{ url('return_book', $borrow->id) }}')" title="Return">
+                                            <a class="btn-sm btn-secondary" href="#" onclick="confirmation(event, 'Book returned by member?', '{{ url('return_book', $borrow->id) }}')" title="Return">
                                                 <i class="fas fa-undo"></i>
                                             </a>
                                         @endif
                                     </td>
-    <!-- new button added  -->
-                           <td>
-                                @if($borrow->status == 'Borrowed' && $borrow->due_date <= now()->addDay())
-                                    <a class="btn-sm btn-info" href="{{ route('send.reminder', $borrow->user->id) }}" title="Send Reminder">
-                                        <i class="fas fa-envelope"></i>
-                                    </a>
-                                @else
-                                    <a class="btn-sm btn-info disabled" href="#" title="Send Reminder" disabled>
-                                        <i class="fas fa-envelope"></i>
-                                    </a>
-                                @endif
-                            </td>
 
-
-
+                                    <td>
+                                        @if(Carbon\Carbon::parse($borrow->due_date)->isPast() && $borrow->status !== 'Returned')
+                                            <a class="btn-sm btn-info" href="{{ route('send.reminder', $borrow->id) }}" title="Send Reminder">
+                                                <i class="fas fa-envelope"></i>
+                                            </a>
+                                        @else
+                                            <a class="btn-sm btn-info disabled" href="#" title="Send Reminder" disabled>
+                                                <i class="fas fa-envelope"></i>
+                                            </a>
+                                        @endif
+                                    </td>
                                 </tr>
                                 @endforeach
                                 </tbody>
@@ -222,56 +218,54 @@
     @include('admin.layouts.script')
 
     <script>
-      function filterTable() {
-        var dueDate = document.getElementById('dueDate').value ? new Date(document.getElementById('dueDate').value) : null;
-        var status = document.getElementById('status').value;
-        var table = document.getElementById('borrowTable').getElementsByTagName('tbody')[0];
-        var tr = table.getElementsByTagName('tr');
+        function filterTable() {
+            var dueDate = document.getElementById('dueDate').value ? new Date(document.getElementById('dueDate').value) : null;
+            var status = document.getElementById('status').value;
+            var table = document.getElementById('borrowTable').getElementsByTagName('tbody')[0];
+            var tr = table.getElementsByTagName('tr');
 
-        for (var i = 0; i < tr.length; i++) {
-          var tdDueDate = tr[i].getElementsByTagName('td')[11];
-          var tdStatus = tr[i].getElementsByTagName('td')[8];
-          var showRow = true;
+            for (var i = 0; i < tr.length; i++) {
+                var tdDueDate = tr[i].getElementsByTagName('td')[11];
+                var tdStatus = tr[i].getElementsByTagName('td')[8];
+                var showRow = true;
 
-          if (tdDueDate) {
-            var rowDueDate = new Date(tdDueDate.innerHTML);
-            if (dueDate && rowDueDate.toDateString() !== dueDate.toDateString()) {
-              showRow = false;
+                if (tdDueDate) {
+                    var rowDueDate = new Date(tdDueDate.innerHTML);
+                    if (dueDate && rowDueDate.toDateString() !== dueDate.toDateString()) {
+                        showRow = false;
+                    }
+                }
+
+                if (tdStatus) {
+                    var rowStatus = tdStatus.innerHTML.trim();
+                    if (status && status !== rowStatus) {
+                        showRow = false;
+                    }
+                }
+
+                tr[i].style.display = showRow ? '' : 'none';
             }
-          }
-
-          if (tdStatus) {
-            var rowStatus = tdStatus.innerHTML.trim();
-            if (status && status !== rowStatus) {
-              showRow = false;
-            }
-          }
-
-          tr[i].style.display = showRow ? '' : 'none';
         }
-      }
     </script>
 
-<script>
-    function confirmation(event, message, url) {
-        event.preventDefault();
-        Swal.fire({
-            title: message,
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, proceed!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = url;
-            }
-        });
-    }
-</script>
-
+    <script>
+        function confirmation(event, message, url) {
+            event.preventDefault();
+            Swal.fire({
+                title: message,
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, proceed!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>
-

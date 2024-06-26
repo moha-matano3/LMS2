@@ -3,45 +3,28 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Borrow;
 use App\Mail\ReminderNotification;
-use App\Models\User; // Ensure this import is correct
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
-class SendReminderNotification extends Command
+class SendReminders extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'notifications:send-reminder';
+    protected $signature = 'send:reminders';
+    protected $description = 'Send reminders for overdue books';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Send reminder notifications to users about overdue books.';
-
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
-        // Logic to send reminder notifications
-        // $users = \App\Models\User::whereHas('borrows', function ($query) {
-            $users = User::whereHas('borrows', function ($query) {
-            $query->where('status', 'borrowed')
-                  ->where('due_date', '<=', now()->addDay()); // Adjust condition as needed
-        })->get();
+        $overdueBorrows = Borrow::with('user', 'book')
+            ->where('due_date', '<', Carbon::now())
+            ->where('status', '!=', 'Returned')
+            ->get();
 
-        foreach ($users as $user) {
-            Mail::to($user->email)->send(new ReminderNotification());
+        foreach ($overdueBorrows as $borrow) {
+            Mail::to($borrow->user->email)->send(new ReminderNotification($borrow));
         }
 
         $this->info('Reminder notifications sent successfully.');
-        return 0;
     }
 }
+

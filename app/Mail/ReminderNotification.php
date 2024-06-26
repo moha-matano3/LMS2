@@ -3,66 +3,36 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Borrow;
+use Carbon\Carbon;
 
 class ReminderNotification extends Mailable
 {
     use Queueable, SerializesModels;
-       //my new latest mods
-    public $user;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct($user)
+    public $borrow;
+    public $due_date;
+
+    public function __construct(Borrow $borrow)
     {
-        $this->user = $user;
+        $this->borrow = $borrow;
+        $this->due_date = new Carbon($borrow->due_date);
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'Remindernotification',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'emails.reminder_notification',
-        );
-    }
-
-    /**
-     * Build the message.
-     */
     public function build()
     {
-        return $this->from('matanomohamed3@gmail.com')
-                    ->to($this->user->email)
-                    ->subject('Dear member your time is almost up, please endeavour to return')
-                    ->view('emails.reminder_notification')
-                    ->with(['user' => $this->user]);
-                    
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        return $this->view('emails.reminder_notification')
+                    ->with([
+                        'user' => $this->borrow->user,
+                      
+                        'due_date' => $this->due_date->format('M d, Y'),
+                    ])
+                    ->subject('Overdue Book Reminder');
     }
 }
+
+
+

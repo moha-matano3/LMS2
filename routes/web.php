@@ -5,7 +5,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ReminderNotification;
-
 use App\Http\Controllers\ReminderController;
 
 
@@ -21,6 +20,9 @@ Route::middleware([
     })->name('welcome');
 });
 
+Route::get('/send-reminder/{id}', [ReminderController::class, 'sendReminder'])->name('send.reminder');
+
+Route::get('/send-reminder-notification/{id}', [ReminderController::class, 'sendReminder'])->name('send-reminder-notification');
 
 Route::get('/send-reminder-notification', function () {
     Mail::send(new ReminderNotification());
