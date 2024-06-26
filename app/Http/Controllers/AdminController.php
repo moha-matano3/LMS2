@@ -313,15 +313,9 @@ class AdminController extends Controller
         $book = $borrow->books;
         if ($book->quantity > 0) {
 
-<<<<<<< HEAD
         // Update book quantity
         $book->quantity -= 1;
         $book->save();
-=======
-            // Update book quantity
-            $book->quantity -= 1;
-            $book->save();
->>>>>>> 238d21559a13b5d3e3cf35ca82067246b077826e
 
             // Update reservation status
             $borrow->reservation_status = 'Accepted';
@@ -349,7 +343,9 @@ class AdminController extends Controller
 
     public function updateRole(Request $request, $id)
     {
+
         $user = User::find($id);
+
         if ($user) {
             $user->usertype = $request->usertype;
             $user->save();
