@@ -15,7 +15,7 @@ class ReminderController extends Controller
         //pali nashuku
         $borrow = Borrow::with('user', 'books')->find($id);
 
-        if ($borrow && $borrow->user && Carbon::parse($borrow->due_date)->isPast() && $borrow->status !== 'Returned') {
+        if ($borrow && $borrow->user && Carbon::parse($borrow->due_date)->isPast() && $borrow->status !== 'Borrowed') {
             Mail::to($borrow->user->email)->send(new ReminderNotification($borrow));
             notify()->success('Reminder notification sent successfully.');
             return redirect()->back();

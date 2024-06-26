@@ -248,11 +248,7 @@ class AdminController extends Controller
         }
         else {
             $data -> status = 'Borrowed';
-<<<<<<< HEAD
             $data -> due_date = Carbon::now()->addMinutes(3);
-=======
-            $data -> due_date = Carbon::now()->addHours(2);
->>>>>>> 372a40884c6f839660b517682f22bcbc87748fe4
             $data -> save();
             notify()->success('Requested Book has been borrowed');
             return redirect()->back();

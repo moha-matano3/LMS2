@@ -202,10 +202,6 @@
                                             <a class="btn-sm btn-info" href="{{ route('send.reminder', $borrow->id) }}" title="Send Reminder">
                                                 <i class="fas fa-envelope"></i>
                                             </a>
-                                        @else
-                                            <a class="btn-sm btn-info disabled" href="#" title="Send Reminder" disabled>
-                                                <i class="fas fa-envelope"></i>
-                                            </a>
                                         @endif
                                     </td>
                                 </tr>
