@@ -26,6 +26,13 @@
         width: 100px;
         height: auto;
       }
+      .notify-container 
+        {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999; /* Ensure it's above other elements */
+        }
     </style>
   </head>
 
@@ -43,13 +50,8 @@
                     <div class="container-fluid">
                         <div class="add_form">
 
-                            <div>
-                                @if (session()->has('message'))
-                                    <div class="alert alert-success">
-                                        {{session()->get('message')}}
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                                    </div>
-                                @endif
+                            <div class="notify-container">
+                               <x-notify::notify />
                             </div>
 
                             <h1 id="head_title"> Update Book <h1><br>
@@ -75,6 +77,10 @@
                                             <option value="{{$category->id}}">{{$category->category_name}}</option>
                                         @endforeach
                                     </select><br><br>
+                                <label> Publisher Name: </label>
+                                <input style="font-size: 15px; padding: 10px;" type="text" name="publisher_name" value="{{$data->publisher_name}}"> <br><br>
+                                <label> Year: </label>
+                                <input style="font-size: 15px; padding: 10px;" type="text" name="year" value="{{$data->year}}"> <br><br>
                                 <label> Current Book Image: </label>
                                 <img class="img_book" src="/book/{{$data->book_img}}"><br><br>
                                 <label> Update Book Image: </label>
@@ -95,5 +101,6 @@
             </div>
         </div>
         @include('admin.layouts.script')
+        @notifyJs
     </body>
 </html>

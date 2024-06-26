@@ -32,9 +32,8 @@ class HomeController extends Controller
                               ->first();
 
         if ($existing_borrow) {
-            //  return redirect()->back()->with('message', 'You have already requested or borrowed this book.');
-             notify()->error('You have already requested or borrowed this book.');
-             return redirect()->back();
+            notify()->warning('You have already requested or borrowed this book');
+            return redirect() -> back();
         }
         else {
             $data = Books::find($id);
@@ -50,15 +49,15 @@ class HomeController extends Controller
                     $borrow -> due_date;
                     $borrow -> save();
                     notify()->success('Request sent to Admin');
-                    return redirect() -> back(); 
-                    
+                    return redirect() -> back();
                 }
                 else {
                     return redirect('/login');
                 }
             }
             else {
-                return redirect() -> back() -> with('message','Not Enough books, kindly wait');
+                notify()->warning('Not Enough books, kindly wait');
+                return redirect() -> back();
             }
         }
     }
@@ -82,7 +81,8 @@ class HomeController extends Controller
             $book->save();
         }
         $data -> delete();
-        return redirect() -> back() -> with('message','Request cancelled successfully');
+        notify()->success('Request cancelled successfully');
+        return redirect() -> back();
     }
 
     public function request_extension($id)
@@ -90,27 +90,42 @@ class HomeController extends Controller
        $borrow = Borrow::find($id);
        $borrow->extension_status = 'pending';
        $borrow->save();
-       return redirect()->back()->with('message', 'Extension request sent to Admin');
+       notify()->success('Extension request sent to Admin');
+        return redirect() -> back();
     }
 
     public function request_reservation($id)
     {
-       $user_id = Auth::user()->id;
-       $request = new Borrow;
-       $request -> books_id = $id;
-       $request -> users_id = $user_id;
-       $request -> status = 'Pending';
-       $request->reservation_status = 'pending';
-       $request->save();
-       return redirect()->back()->with('message', 'Reservation request sent to Admin');
+        $user_id = Auth::user()->id;
+    
+        $existingReservation = Borrow::where('books_id', $id)
+                                     ->where('users_id', $user_id)
+                                     ->where('reservation_status', 'pending')
+                                     ->first();
+    
+        if ($existingReservation) {
+            notify()->error('You already have a pending reservation for this book.');
+            return redirect()->back();
+        }
+    
+        $request = new Borrow;
+        $request->books_id = $id;
+        $request->users_id = $user_id;
+        $request->status = 'Pending';
+        $request->reservation_status = 'pending';
+        $request->save();
+    
+        notify()->success('Reservation request sent to Admin');
+        return redirect()->back();
     }
+    
 
 
     public function search_book(Request $request)
     {
         $category = Category::all();
         $search = $request -> search;
-        $data = Books::where('book_title','LIKE','%'.$search.'%')->orWhere('author_name','LIKE','%'.$search.'%')->get();
+        $data = Books::where('book_title','LIKE','%'.$search.'%')->orWhere('author_name','LIKE','%'.$search.'%')->orWhere('publisher_name','LIKE','%'.$search.'%')->get();
         return view('patron.layouts.browse_books',compact('data','category'));
     }
     public function category_search($id)

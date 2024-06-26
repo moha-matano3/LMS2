@@ -16,7 +16,15 @@
             padding: 30px;
             color: #fff;
         }
+        .notify-container 
+        {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999; /* Ensure it's above other elements */
+        }
     </style>
+    @notifyCss
   </head>
 
   <body>
@@ -33,13 +41,8 @@
                     <div class="container-fluid">
                         <div class="add_form">
 
-                            <div>
-                                @if (session()->has('message'))
-                                    <div class="alert alert-success">
-                                        {{session()->get('message')}}
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                                    </div>
-                                @endif
+                            <div class="notify-container">
+                               <x-notify::notify />
                             </div>
 
                             <h1 id="head_title"> Update Category <h1><br>
@@ -59,5 +62,6 @@
             </div>
         </div>
         @include('admin.layouts.script')
+        @notifyJs
     </body>
 </html>

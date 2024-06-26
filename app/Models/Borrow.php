@@ -29,4 +29,8 @@ class Borrow extends Model
         return $this->belongsTo(User::class, 'users_id');
         
     }
+    public function isPastDue()
+    {
+        return $this->due_date < now();
+    }
 }

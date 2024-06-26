@@ -54,11 +54,19 @@
         }
 
       }
+      .notify-container 
+        {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999; /* Ensure it's above other elements */
+        }
 
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    @notifyCss
 </head>
 
 <body>
@@ -78,13 +86,8 @@
                 <div class="container-fluid">
                     <div class="cat_table">
 
-                        <div>
-                            @if (session()->has('message'))
-                                <div class="alert alert-success">
-                                    {{ session()->get('message') }}
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                                </div>
-                            @endif
+                        <div class="notify-container">
+                            <x-notify::notify />
                         </div>
 
                         <!-- Filter Form -->
@@ -207,6 +210,6 @@
     }
 </script>
 
-
+@notifyJs
 </body>
 </html>

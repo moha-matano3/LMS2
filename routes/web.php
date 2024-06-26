@@ -111,3 +111,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 // new route im adding
 Route::get('/send-reminder/{id}', [ReminderController::class, 'sendReminder'])->name('send.reminder');
+Route::get('/about', function () {return view('about');})->name('about');
+
+    
+Route::post('/updateRole/{id}', [AdminController::class, 'updateRole']);
