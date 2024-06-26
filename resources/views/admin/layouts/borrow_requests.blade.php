@@ -202,10 +202,7 @@
                                             <a class="btn-sm btn-info" href="{{ route('send.reminder', $borrow->id) }}" title="Send Reminder">
                                                 <i class="fas fa-envelope"></i>
                                             </a>
-<<<<<<< HEAD
-=======
                                         
->>>>>>> ef2b1542b84d1829287b5efb862973746e3b1e6e
                                         @endif
                                     </td>
                                 </tr>
