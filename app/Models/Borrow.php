@@ -33,4 +33,10 @@ class Borrow extends Model
     {
         return $this->due_date < now();
     }
+
+    public function fines()
+    {
+        return $this->hasMany(fines::class);
+    }
+
 }

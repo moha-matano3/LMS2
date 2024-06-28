@@ -115,3 +115,7 @@ Route::get('/about', function () {return view('about');})->name('about');
 
 
 Route::post('/updateRole/{id}', [AdminController::class, 'updateRole'])->name('updateRole');
+
+Route::get('/fines_page', [AdminController::class, 'fines_page'])->name('fines_page');
+
+Route::post('/calculateFine/{id}', [AdminController::class, 'calculateFine'])->name('calculateFine');

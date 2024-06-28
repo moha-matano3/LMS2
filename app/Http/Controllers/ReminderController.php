@@ -12,7 +12,7 @@ class ReminderController extends Controller
 {
     public function sendReminder($id)
     {   
-        //pali nashuku
+        
         $borrow = Borrow::with('user', 'books')->find($id);
 
         if ($borrow && $borrow->user && Carbon::parse($borrow->due_date)->isPast() && $borrow->status === 'Borrowed') {

@@ -47,6 +47,9 @@
             <li class="{{ request()->is('reservation_request') ? 'active' : '' }}">
                 <a href="{{ url('reservation_request') }}"><i class="fas fa-calendar-check-o"></i> Reservation Requests</a>
             </li>
+            <li class="{{ request()->is('fines_page') ? 'active' : '' }}">
+                <a href="{{ url('fines_page') }}"><i class="fas fa-exclamation-circle"></i> Penalty Management </a>
+            </li>
         </ul><span class="heading">Extras</span>
         <ul class="list-unstyled">
             <li class="{{ request()->is('extension_request') ? 'active' : '' }}">

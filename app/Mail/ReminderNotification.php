@@ -27,7 +27,7 @@ class ReminderNotification extends Mailable
         return $this->view('emails.reminder_notification')
                     ->with([
                         'user' => $this->borrow->user,
-                      
+                        'book' =>$this->borrow->books,
                         'due_date' => $this->due_date->format('M d, Y'),
                     ])
                     ->subject('Overdue Book Reminder');

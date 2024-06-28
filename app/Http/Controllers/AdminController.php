@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Books;
+use App\Models\fines;
 use App\Models\Borrow;
 use App\Models\Category;
 use App\Models\Reservation;
@@ -248,7 +249,7 @@ class AdminController extends Controller
         }
         else {
             $data -> status = 'Borrowed';
-            $data -> due_date = Carbon::now()->addMinutes(3);
+            $data -> due_date = Carbon::now()->addMinutes(2);
             $data -> save();
             notify()->success('Requested Book has been borrowed');
             return redirect()->back();
@@ -354,5 +355,33 @@ class AdminController extends Controller
             notify()->error('User not found');
         }
         return redirect('/home');
+    }
+
+    public function fines_page()
+    {
+        $fines = Borrow::where('due_date', '<', Carbon::now())->get();
+        return view('admin.layouts.fine', compact('fines'));
+    }
+
+    public function calculateFine($id)
+    {
+        $fines = Borrow::findOrFail($id);
+        $dueDate = Carbon::parse($fines->due_date);
+        $today = Carbon::now();
+
+        if ($today->gt($dueDate)) {
+            $daysOverdue = $today->diffInDays($dueDate);
+            $fineAmount = $daysOverdue * 200;
+            $formattedFineAmount = number_format($fineAmount, 2);
+
+            $fine = fines::updateOrCreate([
+                'borrows_id' => $fines->id,
+                'amount' => $fineAmount,
+            ]);
+
+            return response()->json(['amount' => $formattedFineAmount]);
+        }
+
+        return response()->json(['amount' => number_format(0, 2)]);
     }
 }
