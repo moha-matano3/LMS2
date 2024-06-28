@@ -92,6 +92,7 @@ class HomeController extends Controller
         
     }
 
+    
     public function request_extension($id)
     {
        $borrow = Borrow::find($id);

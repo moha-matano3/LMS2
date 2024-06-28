@@ -20,7 +20,6 @@ class Borrow extends Model
 
     public function books()
     {
-        // return $this->belongsTo(books::class, 'books_id');
         return $this->belongsTo(books::class, 'books_id');
         
     }
