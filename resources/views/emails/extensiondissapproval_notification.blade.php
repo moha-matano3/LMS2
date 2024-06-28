@@ -4,7 +4,7 @@
     <title>Update on Your Extension Request</title>
 </head>
 <body>
-<h1>Dear {{ $user->name }},</h1>
+<h2>Dear {{ $user->name }},</h2>
 <p>I hope this message finds you well.</p>
     <p>Thank you for reaching out to request an extension for the book titled "<b>{{$book->book_title}}</b>" that you currently have borrowed. We appreciate your proactive communication and your dedication to utilizing our library's resources.
 After careful consideration, we regret to inform you that we are unable to approve your extension at this time. Due to high demand and our need to ensure availability for other patrons, we must adhere to our standard borrowing period.</p>

@@ -4,7 +4,7 @@
     <title>Book Returned</title>
 </head>
 <body>
-<h1>Dear {{ $user->name }},</h1>
-    <p>Thank you for returning the book titled {{$book->book_title}}. We look forward to your next visit</p>
+<h2>Dear {{ $user->name }},</h2>
+    <p>Thank you for returning the book titled <b>{{$book->book_title}}</b>. We look forward to your next visit</p>
 </body>
 </html>
