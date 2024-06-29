@@ -229,7 +229,7 @@ class AdminController extends Controller
 
     public function reservation_request()
     {
-        $data = Borrow::where('reservation_status', 'pending')->orderBy('created_at', 'desc')->get();
+        $data = Borrow::where('reservation_status', 'pending')->orderBy('created_at', 'asc')->get();
         return view('admin.layouts.reservation_requests', compact('data'));
     }
 

@@ -15,7 +15,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      *
      * @param  array<string, mixed>  $input
      */
-    public function update(User $user, array $input): void
+    public function update(User $user, array $input)
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
@@ -36,6 +36,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'email' => $input['email'],
             ])->save();
         }
+        return redirect('/home');
     }
 
     /**

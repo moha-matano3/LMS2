@@ -140,7 +140,7 @@
       @include('patron.layouts.header')
     </header>
 
-    
+
 
     <div class="d-flex align-items-stretch">
 
@@ -172,11 +172,20 @@
                             <h3 class="animate-text">{{$data->author_name}}</h3>
                             <h3 class="animate-text">{{$data->publisher_name}}</h3>
                             <p class="animate-text">{{$data->desc}}</p>
-                            @if($data->quantity > 0)
-                              <a href="{{ url('borrow_books', $data->id) }}" class="btn-sm button animate-text">Request</a>
-                              @else
-                              <a href="{{ url('request_reservation', $data->id) }}" class="btn-sm button animate-text">Books unavailable, click to reserve</a>
-                            @endif
+                            @php
+                            $pendingReservations = DB::table('borrows')
+                                ->where('books_id', $data->id)
+                                ->where(function($query) {
+                                    $query->where('reservation_status', 'pending');
+                                })
+                                ->exists();
+                        @endphp
+
+                        @if($data->quantity > 0 && !$pendingReservations)
+                            <a href="{{ url('borrow_books', $data->id) }}" class="btn-sm button animate-text">Request</a>
+                        @else
+                            <a href="{{ url('request_reservation', $data->id) }}" class="btn-sm button animate-text">Books unavailable, click to reserve</a>
+                        @endif
                         </div>
                     </div>
                 @endforeach
@@ -195,7 +204,7 @@
     </div>
 
     @include('patron.layouts.script')
-    
+
     @notifyJs
   </body>
 </html>

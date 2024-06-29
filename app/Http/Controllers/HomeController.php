@@ -8,6 +8,7 @@ use App\Models\Borrow;
 use App\Models\Category;
 use App\Models\User;
 
+
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -21,6 +22,7 @@ class HomeController extends Controller
     {
         $data = Books::all();
         $category = Category::orderBy('category_name', 'asc')->get();
+
         return view ('patron.layouts.browse_books',compact('data','category'));
     }
     public function borrow_books($id)
@@ -89,10 +91,10 @@ class HomeController extends Controller
             notify()->success('Request cancelled successfully');
             return redirect() -> back();
         }
-        
+
     }
 
-    
+
     public function request_extension($id)
     {
        $borrow = Borrow::find($id);
@@ -105,28 +107,28 @@ class HomeController extends Controller
     public function request_reservation($id)
     {
         $user_id = Auth::user()->id;
-    
+
         $existingReservation = Borrow::where('books_id', $id)
                                      ->where('users_id', $user_id)
                                      ->where('reservation_status', 'pending')
                                      ->first();
-    
+
         if ($existingReservation) {
             notify()->error('You already have a pending reservation for this book.');
             return redirect()->back();
         }
-    
+
         $request = new Borrow;
         $request->books_id = $id;
         $request->users_id = $user_id;
         $request->status = 'Pending';
         $request->reservation_status = 'pending';
         $request->save();
-    
+
         notify()->success('Reservation request sent to Admin');
         return redirect()->back();
     }
-    
+
 
 
     public function search_book(Request $request)

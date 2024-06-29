@@ -63,7 +63,7 @@
             z-index: 9999; /* Ensure it's above other elements */
         }
 
-        
+
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -198,11 +198,11 @@
                                     </td>
 
                                     <td>
-                                        @if(Carbon\Carbon::parse($borrow->due_date)->isPast() && $borrow->status !== 'Returned')
+                                        @if(Carbon\Carbon::parse($borrow->due_date)->isPast() && $borrow->status === 'Borrowed')
                                             <a class="btn-sm btn-info" href="{{ route('send.reminder', $borrow->id) }}" title="Send Reminder">
                                                 <i class="fas fa-envelope"></i>
                                             </a>
-                                        
+
                                         @endif
                                     </td>
                                 </tr>
