@@ -18,8 +18,8 @@
             }
             .tile
             {
-            width:280px;
-            height:400px;
+            width:250px;
+            height:370px;
             margin:10px;
             display:inline-block;
             background-size:cover;

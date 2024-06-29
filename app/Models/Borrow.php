@@ -21,13 +21,21 @@ class Borrow extends Model
     public function books()
     {
         return $this->belongsTo(books::class, 'books_id');
+        
     }
     public function user()
     {
         return $this->belongsTo(User::class, 'users_id');
+        
     }
     public function isPastDue()
     {
         return $this->due_date < now();
     }
+
+    public function fines()
+    {
+        return $this->hasMany(fines::class);
+    }
+
 }

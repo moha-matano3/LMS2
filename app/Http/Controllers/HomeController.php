@@ -74,17 +74,25 @@ class HomeController extends Controller
     public function cancel_request($id)
     {
         $data = Borrow::find($id);
-        $book = $data->books;
-        if ($book) {
-            // Increase the book quantity
-            $book->quantity += 1;
-            $book->save();
+        if ($data->status=='Approved') {
+            $book = $data->books;
+            if ($book) {
+                // Increase the book quantity
+                $book->quantity += 1;
+                $book->save();
+            }
+            $data -> delete();
+            notify()->success('Request cancelled successfully');
+            return redirect() -> back();
+        }elseif ($data->status==='Applied') {
+            $data -> delete();
+            notify()->success('Request cancelled successfully');
+            return redirect() -> back();
         }
-        $data -> delete();
-        notify()->success('Request cancelled successfully');
-        return redirect() -> back();
+        
     }
 
+    
     public function request_extension($id)
     {
        $borrow = Borrow::find($id);

@@ -5,12 +5,20 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Books;
+use App\Models\fines;
 use App\Models\Borrow;
 use App\Models\Category;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ApprovalNotification;
+use App\Mail\ReturnNotification;
+use App\Mail\ReservationNotification;
+use App\Mail\extensionNotification;
+use App\Mail\DissapproveNotification;
+use App\Mail\ExtensiondissaprovalNotification;
 
 class AdminController extends Controller
 {
@@ -235,6 +243,8 @@ class AdminController extends Controller
         $book_quantity = $book->quantity - '1';
         $book->quantity = $book_quantity;
         $book->save();
+        // Send approval notification email
+        Mail::to($data->user->email)->send(new ApprovalNotification($data));
         notify()->success('Borrow request approved');
         return redirect()->back();
     }
@@ -248,7 +258,7 @@ class AdminController extends Controller
         }
         else {
             $data -> status = 'Borrowed';
-            $data -> due_date = Carbon::now()->addMinutes(1);
+            $data -> due_date = Carbon::now()->addMinutes(2);
             $data -> save();
             notify()->success('Requested Book has been borrowed');
             return redirect()->back();
@@ -281,6 +291,7 @@ class AdminController extends Controller
             $book_quantity = $book -> quantity + '1';
             $book->quantity = $book_quantity;
             $book->save();
+            Mail::to($data->user->email)->send(new ReturnNotification($data));
             notify()->success('Book Returned');
             return redirect()->back();
         }
@@ -292,8 +303,9 @@ class AdminController extends Controller
        $dueDate = Carbon::parse($borrow->due_date);
 
        // Add 3 days to the due_date
-       $borrow->due_date = $dueDate->addDays(3);
+       $borrow->due_date = $dueDate->addDays(2);
        $borrow->save();
+       Mail::to($borrow->user->email)->send(new extensionNotification($borrow));
        notify()->success('Extension approved');
        return redirect()->back();
     }
@@ -303,6 +315,7 @@ class AdminController extends Controller
        $borrow = Borrow::find($id);
        $borrow->extension_status = 'Rejected';
        $borrow->save();
+       Mail::to($borrow->user->email)->send(new ExtensiondissaprovalNotification($borrow));
        notify()->success('Extension rejected');
        return redirect()->back();
     }
@@ -321,7 +334,7 @@ class AdminController extends Controller
             $borrow->reservation_status = 'Accepted';
             $borrow->status = 'Approved';
             $borrow->save();
-
+            Mail::to($borrow->user->email)->send(new ReservationNotification($borrow));
             notify()->success('Reservation accepted');
             return redirect()->back();
         } else {
@@ -337,6 +350,7 @@ class AdminController extends Controller
        $borrow->status = 'Rejected';
        $borrow->reservation_status = 'Rejected';
        $borrow->save();
+       Mail::to($borrow->user->email)->send(new DissapproveNotification($borrow));
        notify()->warning('Reservation rejected');
        return redirect()->back();
     }
@@ -354,5 +368,33 @@ class AdminController extends Controller
             notify()->error('User not found');
         }
         return redirect('/home');
+    }
+
+    public function fines_page()
+    {
+        $fines = Borrow::where('due_date', '<', Carbon::now())->get();
+        return view('admin.layouts.fine', compact('fines'));
+    }
+
+    public function calculateFine($id)
+    {
+        $fines = Borrow::findOrFail($id);
+        $dueDate = Carbon::parse($fines->due_date);
+        $today = Carbon::now();
+
+        if ($today->gt($dueDate)) {
+            $daysOverdue = $today->diffInDays($dueDate);
+            $fineAmount = $daysOverdue * 200;
+            $formattedFineAmount = number_format($fineAmount, 2);
+
+            $fine = fines::updateOrCreate([
+                'borrows_id' => $fines->id,
+                'amount' => $fineAmount,
+            ]);
+
+            return response()->json(['amount' => $formattedFineAmount]);
+        }
+
+        return response()->json(['amount' => number_format(0, 2)]);
     }
 }

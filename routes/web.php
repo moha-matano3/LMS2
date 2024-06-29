@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReminderNotification;
+use App\Http\Controllers\ReminderController;
+
 
 route::get('/',[HomeController::class,'index']);
 
@@ -14,6 +18,15 @@ Route::middleware([
     Route::get('/welcome', function () {
         return view('welcome');
     })->name('welcome');
+});
+
+Route::get('/send-reminder/{id}', [ReminderController::class, 'sendReminder'])->name('send.reminder');
+
+Route::get('/send-reminder-notification/{id}', [ReminderController::class, 'sendReminder'])->name('send-reminder-notification');
+
+Route::get('/send-reminder-notification', function () {
+    Mail::send(new ReminderNotification());
+    return view('welcome');
 });
 
 route::get('/home',[AdminController::class,'index']);
@@ -52,13 +65,6 @@ route::get('/extension_request',[AdminController::class,'extension_request']);
 
 route::get('/reservation_request',[AdminController::class,'reservation_request']);
 
-/*route::get('/reservation_request',[AdminController::class,'manageReservations']);
-
-Route::get('reserve_book/{id}', [AdminController::class, 'reserveBook'])->name('reserve_book');
-Route::get('accept_reservation/{id}', [AdminController::class, 'acceptReservation'])->name('accept_reservation');
-Route::get('reject_reservation/{id}', [AdminController::class, 'rejectReservation'])->name('reject_reservation'); */
-
-
 route::get('/approve_book/{id}',[AdminController::class,'approve_book']);
 
 route::get('/approve_extension/{id}',[AdminController::class,'approve_extension']);
@@ -87,14 +93,22 @@ route::get('/search_book',[HomeController::class,'search_book']);
 
 route::get('/category_search/{id}',[HomeController::class,'category_search']);
 
-
+Route::get('/about', function () {return view('about');})->name('about');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 });
+
+
+// new route im adding
+Route::get('/send-reminder/{id}', [ReminderController::class, 'sendReminder'])->name('send.reminder');
 Route::get('/about', function () {return view('about');})->name('about');
 
 
 Route::post('/updateRole/{id}', [AdminController::class, 'updateRole'])->name('updateRole');
+
+Route::get('/fines_page', [AdminController::class, 'fines_page'])->name('fines_page');
+
+Route::post('/calculateFine/{id}', [AdminController::class, 'calculateFine'])->name('calculateFine');

@@ -61,7 +61,8 @@
                                 </div>
                                 <div>
                                     <label> Book Description: </label>
-                                    <textarea style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="desc" placeholder="Description of book (20 words Max.)"required></textarea><br><br>
+                                    <textarea style="font-size: 15px; padding: 10px; width: 250px;" type="text" name="desc" placeholder="Short description of book
+                                    "required></textarea><br><br>
                                 </div>
                                 <div>
                                     <label> Book Author: </label>
