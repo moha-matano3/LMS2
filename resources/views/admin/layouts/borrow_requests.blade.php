@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title> borrow Requests </title>
     @include('admin.layouts.head')
 
     <style>
@@ -125,9 +126,9 @@
                                       <th>Request date</th>
                                       <th>Review date</th>
                                       <th>Due date</th>
+                                      <th></th>
+                                      <th></th>
                                       <th>Actions</th>
-                                      <th></th>
-                                      <th></th>
                                       <th></th>
                                       <th></th>
                                   </tr>

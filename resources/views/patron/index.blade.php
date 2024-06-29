@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head> 
+
+  <title> Member Dash</title>
     @include('patron.layouts.head')
   </head>
 

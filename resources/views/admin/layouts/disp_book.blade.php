@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title> Books Display </title>
     @include('admin.layouts.head')
 
     <style>

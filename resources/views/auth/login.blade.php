@@ -12,7 +12,7 @@
             </div>
         @endsession
 
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login') }}" enctype="multipart/form-data">
             @csrf
 
             <div>

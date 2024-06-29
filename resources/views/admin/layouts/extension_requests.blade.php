@@ -3,6 +3,8 @@
 <head>
     @include('admin.layouts.head')
 
+    <title> Extension Request </title>
+
     <style>
       .cat_table {
         text-align: center;

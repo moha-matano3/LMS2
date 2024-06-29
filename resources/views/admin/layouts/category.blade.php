@@ -2,7 +2,7 @@
 <html>
   <head> 
     @include('admin.layouts.head')
-
+    <title> Add Category </title>
     <style>
         .add_form
         {

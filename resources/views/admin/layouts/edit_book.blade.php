@@ -3,6 +3,8 @@
   <head> 
     @include('admin.layouts.head')
 
+    <title> Edit book </title>
+
     <style>
         .add_form
         {
