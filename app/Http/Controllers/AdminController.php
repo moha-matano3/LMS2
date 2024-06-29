@@ -229,7 +229,10 @@ class AdminController extends Controller
 
     public function reservation_request()
     {
-        $data = Borrow::where('reservation_status', 'pending')->orderBy('created_at', 'desc')->get();
+        $data = Borrow::where('reservation_status', 'pending')
+        ->orderBy('created_at', 'asc')
+        ->orderBy('books_id', 'asc')
+        ->get();
         return view('admin.layouts.reservation_requests', compact('data'));
     }
 
@@ -309,6 +312,13 @@ class AdminController extends Controller
        notify()->success('Extension approved');
        return redirect()->back();
     }
+    public function checkPendingReservations($bookId)
+    {
+        return Borrow::where('books_id', $bookId)
+            ->where('reservation_status', 'pending')
+            ->count();
+    }
+
 
     public function reject_extension($id)
     {

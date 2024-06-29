@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title> Add Book </title>
     @include('admin.layouts.head')
 
     <style>

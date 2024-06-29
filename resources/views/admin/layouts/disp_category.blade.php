@@ -2,7 +2,7 @@
 <html>
   <head>
     @include('admin.layouts.head')
-
+    <title> Display Category </title>
     <style>
       .cat_table
       {

@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
+
+  <title>My requests</title>
+  
     @include('patron.layouts.head')
+
+ 
 
     <style>
       .cat_table

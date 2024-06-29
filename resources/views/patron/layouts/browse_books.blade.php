@@ -2,6 +2,8 @@
 <html>
   <head>
 
+  <title> Browse books </title>
+
     <base href="/public">
     @include('patron.layouts.head')
 

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head> 
+    <title>Librarian Dash </title>
+    
     @include('admin.layouts.head')
   </head>
 

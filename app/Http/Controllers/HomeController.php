@@ -19,7 +19,7 @@ class HomeController extends Controller
 
     public function browse_books()
     {
-        $data = Books::all();
+        $data = Books::orderBy('shelf_place', 'asc')->get();
         $category = Category::orderBy('category_name', 'asc')->get();
         return view ('patron.layouts.browse_books',compact('data','category'));
     }
