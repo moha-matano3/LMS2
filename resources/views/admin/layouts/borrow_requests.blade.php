@@ -199,7 +199,7 @@
                                     </td>
 
                                     <td>
-                                        @if(Carbon\Carbon::parse($borrow->due_date)->isPast() && $borrow->status !== 'Returned')
+                                        @if(Carbon\Carbon::parse($borrow->due_date)->isPast() && $borrow->status === 'Borrowed')
                                             <a class="btn-sm btn-info" href="{{ route('send.reminder', $borrow->id) }}" title="Send Reminder">
                                                 <i class="fas fa-envelope"></i>
                                             </a>
