@@ -192,39 +192,51 @@
     <div class="content">
         <section class="section">
             <h2>Welcome to Hekima Library</h2>
-            <p>Hekima Library is a sanctuary for book lovers and knowledge seekers. Our extensive collection of books spans various genres, ensuring that every reader finds something to their taste. Whether you're a student, a researcher, or just someone who loves to read, Hekima Library is your go-to destination.</p>
+            <p>
+                Hekima Mobile Library brings the joy of reading and knowledge directly to you. Our diverse collection travels with us, offering books across various 
+                genres to suit every reader's taste. Whether you're a student, researcher, or simply a book lover, Hekima Mobile Library is your community's gateway 
+                to discovery and inspiration.
+            </p>
         </section>
 
         <section class="section">
             <h2>Availability of Books</h2>
-            <p>At Hekima Library, we pride ourselves on our wide range of books. Our collection includes fiction, non-fiction, academic textbooks, journals, and much more. Our catalogue is constantly updated to include the latest releases and timeless classics.</p>
-            <p>Members can easily check the availability of books through our online catalog or by visiting the library. We also offer a reservation service, so you can reserve a book if it's currently on loan.</p>
+            <p>
+                At Hekima Mobile Library, we take pride in our thoughtfully curated collection of books. Despite our compact size, we offer a wide range of genres, 
+                including fiction, non-fiction, academic resources, and more. Our selection is continually refreshed with new titles and beloved classics, ensuring 
+                there's something for everyone in the community.
+            </p>
+            <p>
+                Members can easily check the availability of books through our online catalog or by visiting the library during its next tour of your location 
+                around the community. We also offer a reservation service, so you can reserve a book if it's currently on loan.
+            </p>
         </section>
 
         <section class="section">
             <h2>Library Rules and Penalties</h2>
-            <p>To ensure a pleasant experience for all our patrons, we have a set of rules that must be followed:</p>
+            <p>To ensure a pleasant experience for all our members, we have a set of rules that must be followed:</p>
             <ul>
                 <li>Handle books and other materials with care.</li>
-                <li>Return books on or before the due date.</li>
+                <li>Return books on or before the due date to the designated mobile library location.</li>
+                <li>For every receive or return, members should show up with valid identification. </li>
             </ul>
             <p>Failure to adhere to these rules may result in penalties, including:</p>
             <ul>
-                <li>Replacement costs for lost or damaged books.</li>
-                <li>Temporary suspension of library privileges for repeated offenses.</li>
+                <li>Replacement costs for lost or damaged books. (This is rated at twice the book's market price)</li>
+                <li>A fine of a maximum of upto Ksh.200 per day spent with the book past its due date.</li>
+                <li>Lack of identification will lead to failure of borrow privileges.</li>
             </ul>
         </section>
 
         <section class="section">
             <h2>Contact Us</h2>
             <p>For any inquiries or assistance, feel free to contact us:</p>
-            <p><strong>Address:</strong> Ruiru</p>
-            <p><strong>Phone:</strong> 0707381528</p>
+            <p><strong>Email:</strong><i>hekimalibrary@gmail.com</i></p>
         </section>
     </div>
 
     <footer>
-        &copy; Hekima Library©, Elimu ni ufunguo wa maisha.
+        &copy; Hekima Library, Elimu ni ufunguo wa maisha.
     </footer>
 </body>
 </html>
