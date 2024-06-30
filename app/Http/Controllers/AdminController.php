@@ -217,7 +217,7 @@ class AdminController extends Controller
 
     public function borrow_request()
     {
-        $data = Borrow::where('status', '!=', 'Pending')->get();
+        $data = Borrow::where('status', '!=', 'Pending')->orderBy('created_at','desc')->get();
         return view('admin.layouts.borrow_requests', compact('data'));
     }
 
