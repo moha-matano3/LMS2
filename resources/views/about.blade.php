@@ -203,10 +203,11 @@
 
         <section class="section">
             <h2>Library Rules and Penalties</h2>
-            <p>To ensure a pleasant experience for all our patrons, we have a set of rules that must be followed:</p>
+            <p>To ensure a pleasant experience for all our members, we have a set of rules that must be followed:</p>
             <ul>
                 <li>Handle books and other materials with care.</li>
-                <li>Return books on or before the due date.</li>
+                <li>Return books on or before the due date.(Due date is upto a week of the collection date)</li>
+                <li>If need be, a time extension can be requested for upto 3 days</li>
             </ul>
             <p>Failure to adhere to these rules may result in penalties, including:</p>
             <ul>
@@ -218,7 +219,7 @@
         <section class="section">
             <h2>Contact Us</h2>
             <p>For any inquiries or assistance, feel free to contact us:</p>
-            <p><strong>Address:</strong> Ruiru</p>
+            <p><strong>Email:</strong> <i>hekimalibrary@gmail.com</i></p>
             <p><strong>Phone:</strong> 0707381528</p>
         </section>
     </div>
