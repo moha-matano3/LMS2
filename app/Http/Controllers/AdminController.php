@@ -34,7 +34,7 @@ class AdminController extends Controller
                 $book = Books::sum('quantity');
                 $borrow = Borrow::where('status','Borrowed')->count();
                 $return = Borrow::where('status','Returned')->count();
-                $borrowRequests = Borrow::whereIn('status', ['Applied', 'Approved'])
+                $borrowRequests = Borrow::whereIn('status', ['Applied', 'Approved', 'Borrowed'])
                                         ->join('books', 'borrows.books_id', '=', 'books.id')
                                         ->join('users', 'borrows.users_id', '=', 'users.id')
                                         ->select('books.book_title as book_title', 'users.name as username', 'borrows.status')
@@ -50,7 +50,7 @@ class AdminController extends Controller
                 $latestBooks = Books::orderBy('created_at', 'desc')->take(3)->get();
                 return view('patron.index',compact('data','latestBooks'));
             }elseif ($user_type == 'super') {
-                $user = User::all();
+                $user = User::orderBy('name', 'asc')->get();
                 return view('super.index', compact('user'));
             }
             else {
@@ -223,7 +223,7 @@ class AdminController extends Controller
 
     public function extension_request()
     {
-        $data = Borrow::where('extension_status', '!=', 'none')->get();
+        $data = Borrow::where('extension_status', '!=', 'none')->orderBy('created_at','asc')->get();
         return view('admin.layouts.extension_requests', compact('data'));
     }
 
@@ -261,7 +261,7 @@ class AdminController extends Controller
         }
         else {
             $data -> status = 'Borrowed';
-            $data -> due_date = Carbon::now()->addMinutes(2);
+            $data -> due_date = Carbon::now()->addWeek(1);
             $data -> save();
             notify()->success('Requested Book has been borrowed');
             return redirect()->back();
@@ -306,7 +306,7 @@ class AdminController extends Controller
        $dueDate = Carbon::parse($borrow->due_date);
 
        // Add 3 days to the due_date
-       $borrow->due_date = $dueDate->addDays(2);
+       $borrow->due_date = $dueDate->addDays(3);
        $borrow->save();
        Mail::to($borrow->user->email)->send(new extensionNotification($borrow));
        notify()->success('Extension approved');

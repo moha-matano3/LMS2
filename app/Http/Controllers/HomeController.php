@@ -66,7 +66,7 @@ class HomeController extends Controller
     {
         if (Auth::id()) {
             $user_id = Auth::user()->id;
-            $data = Borrow::where('users_id','=',$user_id)->get();
+            $data = Borrow::where('users_id','=',$user_id)->orderBy('created_at','desc')->get();
             return view ('patron.layouts.patron_requests', compact('data'));
         }
     }

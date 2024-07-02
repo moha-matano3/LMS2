@@ -103,6 +103,8 @@
 
                                     <option value="Rejected">Rejected</option>
 
+                                    <option value="pending">Pending</option>
+                                    
                                 </select>
                                 <button type="button" onclick="filterTable()">Filter</button>
                             </form>

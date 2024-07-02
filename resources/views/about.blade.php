@@ -217,8 +217,13 @@
             <p>To ensure a pleasant experience for all our members, we have a set of rules that must be followed:</p>
             <ul>
                 <li>Handle books and other materials with care.</li>
+<<<<<<< HEAD
                 <li>Return books on or before the due date to the designated mobile library location.</li>
                 <li>For every receive or return, members should show up with valid identification. </li>
+=======
+                <li>Return books on or before the due date.(Due date is upto a week of the collection date)</li>
+                <li>If need be, a time extension can be requested for upto 3 days</li>
+>>>>>>> f30391e4e88b8a8699fcdc0a0364a0a51a260640
             </ul>
             <p>Failure to adhere to these rules may result in penalties, including:</p>
             <ul>
@@ -231,7 +236,12 @@
         <section class="section">
             <h2>Contact Us</h2>
             <p>For any inquiries or assistance, feel free to contact us:</p>
+<<<<<<< HEAD
             <p><strong>Email:</strong><i>hekimalibrary@gmail.com</i></p>
+=======
+            <p><strong>Email:</strong> <i>hekimalibrary@gmail.com</i></p>
+            <p><strong>Phone:</strong> 0707381528</p>
+>>>>>>> f30391e4e88b8a8699fcdc0a0364a0a51a260640
         </section>
     </div>
 

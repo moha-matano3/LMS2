@@ -115,7 +115,7 @@
                           @else
                             <p>Cannot request extension</p>
                           @endif
-                      </td>
+                        </td>
 
                         <td>
                           @if ($data -> status == 'Applied' || $data -> status == 'Approved')
