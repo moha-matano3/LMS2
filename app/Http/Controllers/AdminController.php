@@ -34,7 +34,7 @@ class AdminController extends Controller
                 $book = Books::sum('quantity');
                 $borrow = Borrow::where('status','Borrowed')->count();
                 $return = Borrow::where('status','Returned')->count();
-                $borrowRequests = Borrow::whereIn('status', ['Applied', 'Approved'])
+                $borrowRequests = Borrow::whereIn('status', ['Applied', 'Approved', 'Borrowed'])
                                         ->join('books', 'borrows.books_id', '=', 'books.id')
                                         ->join('users', 'borrows.users_id', '=', 'users.id')
                                         ->select('books.book_title as book_title', 'users.name as username', 'borrows.status')
